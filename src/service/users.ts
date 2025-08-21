@@ -3,6 +3,7 @@ import { from, Observable } from 'rxjs';
 import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference } from '@angular/fire/firestore';
 
 export interface Users {
+  id?: string;
   prefix: string;
   fname: string;
   lname: string;

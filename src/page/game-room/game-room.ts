@@ -40,9 +40,13 @@ export class GameRoom {
 
   ngOnInit() {
     this.usersService.getUsers().subscribe(users => {
-      this.listUsers = users;
+      this.listUsers = users.map(user => ({
+        id: user.id,
+        prefix: user.prefix,
+        fname: user.fname,
+        lname: user.lname
+      }));
       this.maxNumber = users.length;
-      console.log('Users loaded:', this.listUsers);
     });
   }
 
@@ -50,9 +54,10 @@ export class GameRoom {
     if (this.spinning) return;
 
     this.playSound('spin.mp3');
-    const random = Math.floor(Math.random() * this.maxNumber);
+    const random = Math.floor(Math.random() * this.maxNumber) + 1;
     this.result = random.toString().padStart(3, '0');
     this.spinning = true;
+    console.log('Spinning...', this.result);
     this.winnerUser = this.listUsers.find((user) => {
       return user.id === this.result;
     });
