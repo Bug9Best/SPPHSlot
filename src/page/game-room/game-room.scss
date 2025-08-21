@@ -1,110 +1,57 @@
-@import url('https://fonts.googleapis.com/css?family=Cairo');
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg)
-    }
+.slot {
+  font-size: 15rem;
+  font-weight: bold;
+  width: 250px;
+  height: 350px;
+  border: 2px solid #ee9ca7;
+  border-radius: 10px;
+  background: #eee;
+  overflow: hidden;
+  position: relative;
 }
 
-body {
-    background-color: #292929;
+.reel {
+  display: flex;
+  flex-direction: column;
 }
 
-#repeatButton {
-    appearance: none;
-    border: none;
-    background: url(https://github.com/antibland/codes/blob/gh-pages/random-assets/img/slots/repeat.png?raw=true) transparent 0 0 no-repeat;
-    background-size: cover;
-    width: 48px;
-    height: 48px;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-    animation: 6s linear infinite spin;
+.reel div {
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-h1 {
-    font-size: 150%;
-    font-family: 'Cairo', sans-serif;
+.slot.win {
+  animation: flash 0.3s alternate 6;
+  /* กระพริบ 6 ครั้ง */
+  border-color: gold;
+  box-shadow: 0 0 20px gold;
 }
 
-h1 span {
-    color: aliceblue;
-    border: 1px solid hsla(208, 100%, 97.1%, .1);
-    display: inline-block;
-    padding: 0.75rem 1rem;
+@keyframes flash {
+  from {
+    background: #fff;
+    border-color: gold;
+    box-shadow: 0 0 20px gold;
+  }
+
+  to {
+    background: #ffe066;
+    border-color: orange;
+    box-shadow: 0 0 30px orange;
+  }
 }
 
-.icons {
-    display: inline-block;
-    width: 128px;
-    height: 564px;
-    overflow: hidden;
-    background: #fff url(https://github.com/antibland/codes/blob/gh-pages/random-assets/img/slots/sprite5.png?raw=true) repeat-y;
-    will-change: backgroundPosition;
-    transition: 0.3s background-position ease-in-out;
-    padding: 0 80px;
-    transform: translateZ(0);
-}
-
-.icons:nth-child(2) {
-    margin: 0 10px;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-.spinner-container {
-    overflow: hidden;
-    height: 632px;
-    padding: 2em;
-    transform: translate(-50%, -50%) scale(.62, .62);
-    position: absolute;
-    top: 50%;
-    left: 50%;
+.lucky-number {
     display: flex;
-    transition: 0.3s transform;
-}
-
-.app-wrap.winner-false {
-    animation: linear 1s spin;
-}
-
-.spinner-container::after {
-    position: absolute;
-    content: '';
-    display: block;
-    height: 180px;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 30px;
-    left: 30px;
-    background: rgba(255, 0, 0, .1);
-}
-
-.gradient-fade {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    bottom: 32px;
-    left: 32px;
-    background: linear-gradient(to bottom,
-            rgba(64, 64, 64, 1) 0%,
-            rgba(64, 64, 64, 0) 7%,
-            rgba(64, 64, 64, 0) 93%,
-            rgba(64, 64, 64, 1) 100%);
-}
-
-@media screen and (max-width: 1000px) {
-    .spinner-container {
-        transform: translate(-50%, -50%) scale(.55, .55);
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .spinner-container {
-        transform: translate(-50%, -50%) scale(.4, .4);
-    }
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 8rem;
+    color: #fff;
+    background-color: #f3b2bb;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
 }

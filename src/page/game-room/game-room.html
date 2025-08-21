@@ -1,4 +1,71 @@
 <div class="gradient">
-      <app-spinner></app-spinner>
+  <div class="absolute top-0 left-0 w-full flex justify-between p-3">
+    <div class="text-2xl font-bold p-3">
+      Session 1
+    </div>
+    <div class="text-xl text-white bg-rose-400 opacity-80 p-3 rounded-xl cursor-pointer" 
+      (click)="usersVisible = true">
+      ผู้เข้าร่วม {{ listUsers.length }} คน
+    </div>
+    
+  </div>
+  <div class="h-full flex flex-col justify-center gap-3">
+    <div class="flex gap-3">
+      @for (i of [ 0, 1, 2 ]; track i) {
+      <div class="slot">
+        <div class="reel" [style.transform]="reelTransforms[i]"
+          [style.transition]="'transform ' + reelDurations[i] + ' cubic-bezier(0.25, 1, 0.5, 1)'">
+          @for (reel of numbers; track $index) {
+            <div>{{ reel }}</div>
+          }
+        </div>
+      </div>
+      }
+    </div>
 
+    <button
+      pButton
+      size="large"
+      icon="pi pi-refresh"
+      label="กดเพื่อหมุน"
+      (click)="spin()"
+      [disabled]="spinning">
+    </button>
+  </div>
 </div>
+
+<p-dialog
+  header="ผู้เข้าร่วม"
+  [modal]="true"
+  [(visible)]="usersVisible"
+  [style]="{ width: '60vw', maxHeight: '80vh' }">
+  <ul>
+      <div class="grid grid-cols-2 gap-2">
+        @for (item of listUsers; track $index) {
+            <div class="col-span-1 bg-gray-100 p-3 rounded-lg">{{ item.prefix }}{{ item.fname }} {{ item.lname }}</div>
+        }
+      </div>
+  </ul>
+</p-dialog>
+
+<p-dialog
+  [showHeader]="false"
+  [modal]="true"
+  [(visible)]="dialogVisible"
+  styleClass="pt-8"
+  [style]="{ width: '50vw' }">
+  <div class="flex flex-col items-center my-6">
+    <div class="text-2xl font-bold mb-3">ผู้ชนะ</div>
+    <div class="text-rose-300 text-8xl">
+      {{ result }}
+    </div>
+    <div class="mt-2 text-4xl">{{ winnerUser.prefix }}{{ winnerUser.fname }} {{ winnerUser.lname }}</div>
+  </div>
+  <p-divider></p-divider>
+  <button 
+    pButton 
+    label="ปิด" 
+    (click)="dialogVisible = false" 
+    class="w-full">
+  </button>
+</p-dialog>

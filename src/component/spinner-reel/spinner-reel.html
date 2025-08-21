@@ -1,0 +1,7 @@
+<div class="reel" [style.height.px]="itemHeight">
+  @for (n of items; track $index) {
+  <div class="item" [style.height.px]="itemHeight">
+    {{ n }}
+  </div>
+  }
+</div>
