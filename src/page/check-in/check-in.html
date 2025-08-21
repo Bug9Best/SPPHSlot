@@ -1,0 +1,93 @@
+<div class="gradient">
+  @if (stateCheckIn === 'START') {
+    <div class="flex justify-center">
+      <button pButton
+        size="large"
+        severity="primary"
+        icon="pi pi-plus"
+        label="เข้ารวมการประชุม"
+        (click)="stateCheckIn = 'CREATE'">
+      </button>
+    </div>
+  } @else if (stateCheckIn === 'CREATE') {
+    <div class="p-4 bg-white rounded-lg shadow w-full">
+      <div class="text-xl font-bold text-center">
+        ลงทะเบียนเข้าร่วมการประชุม
+      </div>
+      <p-divider></p-divider>
+
+      <div [formGroup]="formGroup" class="flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <label class="required" for="prefix">คำนำหน้า</label>
+          <input pInputText id="prefix" formControlName="prefix" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="required" for="fname">ชื่อ</label>
+          <input pInputText id="fname" formControlName="fname" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="required" for="lname">นามสกุล</label>
+          <input pInputText id="lname" formControlName="lname" />
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+      <div class="flex justify-center gap-2">
+        <button pButton
+          severity="danger"
+          [text]="true"
+          icon="pi pi-undo"
+          label="ยกเลิก"
+          class="w-full"
+          (click)="stateCheckIn = 'START'">
+        </button>
+        <button pButton
+          icon="pi pi-save"
+          label="บันทึก"
+          class="w-full"
+          (click)="CheckInUser()">
+        </button>
+        </div>
+    </div>
+    } @else if (stateCheckIn === 'DETAIL') {
+    <div class="p-4 bg-white rounded-lg shadow w-full">
+      <div class="text-xl font-bold text-center">
+        รายละเอียดการลงทะเบียน
+      </div>
+      <p-divider></p-divider>
+
+      <div class="flex flex-col gap-3">
+        <div class="flex gap-1">
+          <div>คำนำหน้า :</div>
+          <div> {{ userData.prefix }} </div>
+        </div>
+        <div class="flex gap-1">
+          <div>ชื่อ :</div>
+          <div>
+            {{ userData.fname }}
+          </div>
+        </div>
+        <div class="flex gap-1">
+          <div>นามสกุล :</div>
+          <div>
+            {{ userData.lname }}
+          </div>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+      <div class="flex flex-col items-center">
+        <div class="lucky-number">
+          {{ userData.id }}
+        </div>
+
+        <div class="text-lg text-center mt-2">
+          <span>Lucky Number ของท่านคือ</span>
+          <span class="font-semibold text-rose-500"> {{ userData.id }}</span>
+          <br> 
+          <span>โปรดจดจำหมายเลขหรือทำการบันทึกหน้าจอไว้</span>
+        </div>
+      </div>
+    </div>
+    }
+</div>

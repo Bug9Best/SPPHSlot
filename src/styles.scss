@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap');
+@import "../src/tailwind/tailwind.css";
+@import "primeicons/primeicons.css";
+
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kanit', sans-serif;
+}
+
+.gradient {
+    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ee9ca7;
+    background: -webkit-linear-gradient(to bottom, #ffdde1, #ee9ca7);
+    background: linear-gradient(to bottom, #ffdde1, #f3b2bb, #ee9ca7);
+}
