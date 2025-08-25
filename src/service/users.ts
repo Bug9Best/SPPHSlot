@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference } from '@angular/fire/firestore';
 
 export interface Users {
   id?: string;
+  uuid: string,
   prefix: string;
   fname: string;
   lname: string;
+  walkin: boolean;
+  active: boolean;
 }
 
 @Injectable({
@@ -22,6 +25,15 @@ export class UsersService {
     ) as Observable<Users[]>;
   }
 
+  getUserByUUID(uuid: string): Observable<Users | undefined> {
+    const usersRef = collection(this.firestore, 'users');
+    const userQuery = query(usersRef, where('uuid', '==', uuid));
+
+    return collectionData(userQuery, { idField: 'id' }).pipe(
+      map(users => (users.length > 0 ? users[0] as Users : undefined))
+    );
+  }
+
   checkIn$(user: any): Observable<DocumentReference> {
     return from(this.CheckIn(user));
   }
@@ -33,6 +45,7 @@ export class UsersService {
     return runTransaction(this.firestore, async (tx) => {
       const duplicateQuery = query(
         usersRef,
+        where('prefix', '==', user.prefix),
         where('fname', '==', user.fname),
         where('lname', '==', user.lname)
       );
@@ -55,6 +68,9 @@ export class UsersService {
 
       const userId = String(nextId).padStart(3, '0');
       user.id = userId;
+      user.uuid = crypto.randomUUID();
+      user.walkin = true;
+      user.active = true;
 
       const newUserRef = doc(usersRef, userId);
       tx.set(newUserRef, user);

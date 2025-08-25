@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-import { JoinGame } from '../page/join-game/join-game';
-import { GameRoom } from '../page/game-room/game-room';
 import { Register } from '../page/register/register';
 import { Console } from '../page/console/console';
 import { Room } from '../page/room/room';
 import { Home } from '../page/home/home';
 import { Dashboard } from '../page/dashboard/dashboard';
+import { Detail } from '../page/detail/detail';
 
 export const routes: Routes = [
     {
@@ -23,7 +22,7 @@ export const routes: Routes = [
     },
     {
         path: 'detail/:uid',
-        component: Console
+        component: Detail
     },
     {
         path: 'dashboard',

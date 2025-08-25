@@ -3,6 +3,11 @@
 @import "../src/tailwind/tailwind.css";
 @import "primeicons/primeicons.css";
 
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
 
 body {
     margin: 0;
