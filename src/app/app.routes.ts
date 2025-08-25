@@ -1,24 +1,40 @@
 import { Routes } from '@angular/router';
-import { CheckIn } from '../page/check-in/check-in';
 import { JoinGame } from '../page/join-game/join-game';
 import { GameRoom } from '../page/game-room/game-room';
+import { Register } from '../page/register/register';
+import { Console } from '../page/console/console';
+import { Room } from '../page/room/room';
+import { Home } from '../page/home/home';
+import { Dashboard } from '../page/dashboard/dashboard';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/check-in',
+        redirectTo: '/home',
         pathMatch: 'full'
     },
     {
-        path: 'check-in',
-        component: CheckIn
+        path: 'home',
+        component: Home
     },
     {
-        path: 'join-game',
-        component: JoinGame
+        path: 'register',
+        component: Register
     },
     {
-        path: 'game-room',
-        component: GameRoom
+        path: 'detail/:uid',
+        component: Console
+    },
+    {
+        path: 'dashboard',
+        component: Dashboard
+    },
+    {
+        path: 'console',
+        component: Console
+    },
+    {
+        path: 'room/:id',
+        component: Room
     },
 ];
