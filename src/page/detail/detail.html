@@ -1,0 +1,44 @@
+<div class="relative w-screen h-screen p-3">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/hexa.jpg'); z-index: -1;">
+  </div>
+
+  <div class="p-4 bg-white rounded-lg shadow w-full z-10">
+    <div class="text-2xl font-bold text-center">
+      รายละเอียดการลงทะเบียน
+    </div>
+    <p-divider></p-divider>
+
+    <div class="flex flex-col gap-3">
+      <div class="flex gap-1">
+        <div>คำนำหน้า :</div>
+        <div> {{ userData.prefix }} </div>
+      </div>
+      <div class="flex gap-1">
+        <div>ชื่อ :</div>
+        <div>
+          {{ userData.fname }}
+        </div>
+      </div>
+      <div class="flex gap-1">
+        <div>นามสกุล :</div>
+        <div>
+          {{ userData.lname }}
+        </div>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+    <div class="flex flex-col items-center">
+      <div class="lucky-number">
+        {{ userData.id }}
+      </div>
+
+      <div class="text-xl text-center mt-2">
+        <span>Lucky Number ของท่านคือ</span>
+        <span class="font-semibold text-rose-500"> {{ userData.id }}</span>
+        <br>
+        <span>จดจำหมายเลขนี้หรือทำการบันทึกหน้าจอไว้</span>
+      </div>
+    </div>
+  </div>
+</div>

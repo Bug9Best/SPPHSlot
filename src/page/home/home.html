@@ -1,0 +1,30 @@
+<div class="relative w-screen h-screen">
+	<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/hexa.jpg'); z-index: -1;">
+	</div>
+
+  <div class="flex justify-center items-center h-full relative z-10">
+    <div class="flex flex-col items-center gap-3">
+      <img src="logo/nmd-logo-2.png" alt="nmd-logo" class="w-72 h-72">
+
+      <div>
+        <div class="text-2xl font-semibold text-center">ประชุมวิชาการกรมแพทย์ทหารเรือ</div>
+        <div class="text-2xl font-semibold text-center">ประจำปี 2568</div>
+      </div>
+
+      <div>
+        <div class="text-lg text-center">Humanizing Healthcare in the</div>
+        <div class="text-lg text-center">Digital Tech-Driven Future</div>
+      </div>
+
+      <button pButton 
+        size="large" 
+        icon="pi pi-sign-in" 
+        label="เข้าร่วมประชุม" 
+        [rounded]="true" 
+        severity="primary"
+        class="w-60 mt-2"
+        routerLink="/register">
+      </button>
+    </div>
+  </div>
+</div>
