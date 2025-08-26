@@ -5,6 +5,7 @@ import { Room } from '../page/room/room';
 import { Home } from '../page/home/home';
 import { Dashboard } from '../page/dashboard/dashboard';
 import { Detail } from '../page/detail/detail';
+import { GameRoom } from '../page/game-room/game-room';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: 'room/:id',
         component: Room
+    },
+    {
+        path: 'game-room',
+        component: GameRoom
     },
 ];

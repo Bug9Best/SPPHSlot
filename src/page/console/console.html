@@ -1,1 +1,89 @@
-<p>console works!</p>
+<div class="relative w-screen h-custom">
+  <!-- <audio src="sounds/theme.mp3" autoplay loop></audio> -->
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/red.jpg'); z-index: -1;">
+  </div>
+
+  @if (currentMode === 'console') {
+    <div class="flex items-center justify-center h-full ">
+      <div class="flex flex-col gap-3 -mt-30">
+        <img src="image/lucky.png" alt="Logo" width="350"  height="200" class="mx-auto select-none" />
+        <button type="button" class="game-btn" (click)="switchMode('room')">เข้าร่วม</button>
+        <button type="button" class="game-btn" (click)="switchMode('statistics')">สถิติ</button>
+      </div>
+    </div>
+  }
+
+  @else if (currentMode === 'room') {
+    <div class="flex justify-between">
+      <div class="pt-3 pl-3">
+        <button type="button" class="game-btn-sm" (click)="switchMode('console')">ย้อนกลับ</button>
+      </div>
+
+      <div class="pt-3 pr-3">
+        <button type="button" class="game-btn-sm" (click)="visible = true">สร้างห้องใหม่</button>
+      </div>
+    </div>
+
+    <div class="custom-border m-3 p-3 mt-3 overflow-y-scroll">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        @for (room of listRoom; track $index) {
+          <div class="custom-card rounded-lg shadow-md p-4 flex flex-col">
+            <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
+      
+            <div class="flex items-center gap-2 mb-3">
+              <div class="">สถานะ: </div>
+              @switch (room.status) {
+                @case (1) {
+                  <p-tag severity="primary" value="เปิด"/>
+                }
+                @case (2) {
+                  <p-tag severity="danger" value="ปิด"/>
+
+                }
+              }
+            </div>
+            <button type="button" class="game-btn-xs w-full" routerLink="/room/{{ room.uuid }}">เข้าร่วม</button>
+          </div>
+          }
+      </div>
+    </div>
+
+   <p-dialog 
+    [modal]="true" 
+    [draggable]="false"
+    [showHeader]="false"
+    [(visible)]="visible" 
+    [style]="{ width: '40vw' }">
+    <div class="my-3">
+      <h2 class="text-white text-lg font-bold">สร้างห้องใหม่</h2>
+    </div>
+
+    <div [formGroup]="formGroup">
+      <div class="flex flex-col gap-2 mb-4">
+        <label for="name" class="text-white font-semibold w-24">ชื่อห้อง</label>
+        <input pInputText id="name" class="w-full" autocomplete="off" formControlName="name"/>
+      </div>
+    </div>
+
+    <ng-template #footer>
+        <button type="button" class="game-btn-xs-secondary" (click)="visible = false">ยกเลิก</button>
+        <button type="button" class="game-btn-xs" (click)="createRoom()">สร้างห้องใหม่</button>
+      </ng-template>
+  </p-dialog>
+  }
+
+  @else if (currentMode === 'statistics') {
+    <div class="pt-3 pl-3">
+      <button type="button" class="game-btn-sm" (click)="switchMode('console')">ย้อนกลับ</button>
+    </div>
+
+    <div class="custom-border m-3 p-3 mt-3">
+    </div>
+  }
+
+  <div class="absolute left-0 bottom-0 mb-3 ml-3">
+    <div class="text-sm text-white opacity-50">
+      <p>ศูนย์สื่อสารและสารสนเทศ โรงพยาบาลสมเด็จพระปิ่นเกล้า</p>
+    </div>
+  </div>
+</div>

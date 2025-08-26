@@ -1,0 +1,76 @@
+import { inject, Injectable } from '@angular/core';
+import { from, map, Observable } from 'rxjs';
+import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference } from '@angular/fire/firestore';
+
+export interface Rooms {
+  id?: string;
+  uuid: string,
+  name: string;
+  status: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RoomsService {
+  private firestore = inject(Firestore);
+
+  getRooms(): Observable<Rooms[]> {
+    return collectionData(
+      collection(this.firestore, 'rooms'),
+      { idField: 'id' }
+    ) as Observable<Rooms[]>;
+  }
+
+  getRoomsByUUID(uuid: string): Observable<Rooms | undefined> {
+    const roomsRef = collection(this.firestore, 'rooms');
+    const roomQuery = query(roomsRef, where('uuid', '==', uuid));
+
+    return collectionData(roomQuery, { idField: 'id' }).pipe(
+      map(rooms => (rooms.length > 0 ? rooms[0] as Rooms : undefined))
+    );
+  }
+
+  CreateRoom$(user: any): Observable<DocumentReference> {
+    return from(this.CreateRoom(user));
+  }
+
+  async CreateRoom(room: any) {
+    const counterRef = doc(this.firestore, 'counters/rooms');
+    const roomsRef = collection(this.firestore, 'rooms');
+
+    return runTransaction(this.firestore, async (tx) => {
+      const duplicateQuery = query(
+        roomsRef,
+        where('name', '==', room.name),
+      );
+
+      const dupSnap = await getDocs(duplicateQuery);
+
+      if (!dupSnap.empty) {
+        throw new Error('ไม่สามารถทำรายการได้ เนื่องจากห้องนี้มีอยู่แล้ว');
+      }
+
+      const counterSnap = await tx.get(counterRef);
+      let nextId = 1;
+
+      if (counterSnap.exists()) {
+        nextId = counterSnap.data()['lastId'] + 1;
+        tx.update(counterRef, { lastId: nextId });
+      } else {
+        tx.set(counterRef, { lastId: 1 });
+      }
+
+      const roomId = String(nextId).padStart(3, '0');
+      room.id = roomId;
+      room.uuid = crypto.randomUUID();
+      room.name = room.name;
+      room.status = 1;
+
+      const newRoomRef = doc(roomsRef, roomId);
+      tx.set(newRoomRef, room);
+
+      return { id: newRoomRef.id, ...room };
+    });
+  }
+}

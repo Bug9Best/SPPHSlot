@@ -50,7 +50,6 @@ export class Register {
     });
   }
 
-
   router = inject(Router);
   CheckInUser() {
     let values = this.formGroup.value

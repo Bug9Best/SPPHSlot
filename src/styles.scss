@@ -27,7 +27,99 @@ body {
     display: flex;
     justify-content: center;
     align-items: start;
-    background: #ee9ca7;
-    background: -webkit-linear-gradient(to bottom, #ffdde1, #ee9ca7);
-    background: linear-gradient(to bottom, #ffdde1, #f3b2bb, #ee9ca7);
+}
+
+.game-btn-xs {
+    font-size: 1rem;
+    color: white;
+    border: 4px solid transparent;
+    border-radius: 1.25rem;
+    font-weight: bold;
+    padding: 0.25rem 2rem;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+    background: linear-gradient(to bottom, #e63946, #b71c1c) padding-box,
+        linear-gradient(to bottom, #ffcc00, #ff8800) border-box;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-btn-xs-secondary {
+    font-size: 1rem;
+    color: white;
+    border: 4px solid #ff8800;
+    border-radius: 1.25rem;
+    font-weight: bold;
+    padding: 0.25rem 2rem;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+    background: transparent;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-btn-xs:hover {
+    transform: scale(1.02);
+}
+
+.game-btn-xs:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-btn-xs-secondary:hover {
+    transform: scale(1.02);
+}
+
+.game-btn-xs-secondary:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-btn-sm {
+    font-size: 1.25rem;
+    color: white;
+    border: 4px solid transparent;
+    border-radius: 1.25rem;
+    font-weight: bold;
+    padding: 0.5rem 3rem;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+    background: linear-gradient(to bottom, #e63946, #b71c1c) padding-box,
+        linear-gradient(to bottom, #ffcc00, #ff8800) border-box;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-btn-sm:hover {
+    transform: scale(1.01);
+}
+
+.game-btn-sm:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-btn {
+    font-size: 1.5rem;
+    color: white;
+    border: 6px solid transparent;
+    border-radius: 2rem;
+    font-weight: bold;
+    padding: 0.75rem 5rem;
+    cursor: pointer;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+    background: linear-gradient(to bottom, #e63946, #b71c1c) padding-box,
+        linear-gradient(to bottom, #ffcc00, #ff8800) border-box;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-btn:hover {
+    transform: scale(1.01);
+}
+
+.game-btn:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
