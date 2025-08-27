@@ -27,7 +27,7 @@
     <div class="custom-border m-3 p-3 mt-3 overflow-y-scroll">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         @for (room of listRoom; track $index) {
-          <div class="custom-card rounded-lg shadow-md p-4 flex flex-col">
+          <div class="custom-card rounded-lg shadow-md p-4 flex flex-col" style="background-image: url('image/green.jpg')">
             <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
       
             <div class="flex items-center gap-2 mb-3">
@@ -53,7 +53,7 @@
     [draggable]="false"
     [showHeader]="false"
     [(visible)]="visible" 
-    [style]="{ width: '40vw' }">
+    [style]="{ width: '40vw, backgound-color: red' }">
     <div class="my-3">
       <h2 class="text-white text-lg font-bold">สร้างห้องใหม่</h2>
     </div>

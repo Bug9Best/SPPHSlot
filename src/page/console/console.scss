@@ -22,7 +22,6 @@
 .custom-card {
     color: white;
     border: 3px solid #ff8800;
-    background: url('/image/green.jpg') no-repeat center center;
 }
 
 :host ::ng-deep .p-tag {
@@ -31,5 +30,5 @@
 
 :host ::ng-deep .p-dialog {
     border: 3px solid #ff8800;
-    background: url('/image/green-lg.jpg') no-repeat center center;
+    background: url('/image/green.jpg') no-repeat center center;
 }
