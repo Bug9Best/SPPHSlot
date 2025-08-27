@@ -6,6 +6,7 @@ import { Home } from '../page/home/home';
 import { Dashboard } from '../page/dashboard/dashboard';
 import { Detail } from '../page/detail/detail';
 import { GameRoom } from '../page/game-room/game-room';
+import { Join } from '../page/join/join';
 
 export const routes: Routes = [
     {
@@ -38,7 +39,11 @@ export const routes: Routes = [
         component: Room
     },
     {
-        path: 'game-room',
-        component: GameRoom
+        path: 'join',
+        component: Join
     },
+    // {
+    //     path: 'game-room',
+    //     component: GameRoom
+    // },
 ];

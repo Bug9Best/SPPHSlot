@@ -2,11 +2,55 @@
   <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/red.jpg'); z-index: -1;">
   </div>
 
-     <div class="flex justify-between">
-      <div class="pt-3 pl-3">
-        <button type="button" class="game-btn-sm" routerLink="/console">ย้อนกลับ</button>
-      </div>
+  <div class="absolute top-0 left-0 w-full flex justify-between">
+    <div class="pt-3 pl-3">
+      <button type="button" class="game-btn-sm" routerLink="/console">ย้อนกลับ</button>
     </div>
+    <div class="pt-3 pr-3">
+      <button type="button" class="game-btn-sm mr-3" (click)="usersVisible = true">
+        <i class="pi pi-users text-xl!"></i>
+      </button>
+      @if (contentMode === 'game') {
+      <button type="button" class="game-btn-sm" (click)="contentMode = 'qrcode'">
+        <i class="pi pi-qrcode text-xl!"></i>
+      </button>
+      } @else {
+        <button type="button" class="game-btn-sm" (click)="contentMode = 'game'">
+          <i class="pi pi-discord text-xl!"></i>
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (contentMode === 'game') {
+    <div class="h-full flex flex-col justify-center items-center gap-5">
+      <div class="text-4xl text-white"> สุ่มรางวัล </div>
+      <div class="text-5xl text-white mb-4"> {{ roomData?.name || "-" }} </div>
+      <div class="flex slot-container">
+        @for (i of [ 0, 1, 2 ]; track i) {
+        <div class="slot">
+          <div class="reel" [style.transform]="reelTransforms[i]"
+            [style.transition]="'transform ' + reelDurations[i] + ' cubic-bezier(0.25, 1, 0.5, 1)'">
+            @for (reel of numbers; track $index) {
+              <div>{{ reel }}</div>
+            }
+          </div>
+        </div>
+        }
+      </div>
+
+      <button type="button" class="game-btn" (click)="spin()" [disabled]="spinning">กดเพื่อหมุน</button>
+    </div>
+  }
+
+  @else {
+    <div class="flex justify-center items-center h-full">
+      <qrcode 
+        [qrdata]="qrCode" 
+        [width]="512"  
+        [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+  }
 
 
   <div class="absolute left-0 bottom-0 mb-3 ml-3">
@@ -15,3 +59,20 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  [modal]="true"
+  [showHeader]="false"
+  [(visible)]="usersVisible"
+  [style]="{ width: '60vw', maxHeight: '80vh',  background: 'url(image/green.jpg) no-repeat center center / cover' }">
+  <div class="my-3">
+    <h2 class="text-white text-lg font-bold"> ผู้เข้าร่วม </h2>
+  </div>
+  <ul>
+      <div class="grid grid-cols-2 gap-2">
+        @for (item of listUsers; track $index) {
+            <div class="col-span-1 bg-gray-100 p-3 rounded-lg">{{ item.prefix }}{{ item.fname }} {{ item.lname }}</div>
+        }
+      </div>
+  </ul>
+</p-dialog>
