@@ -13,6 +13,8 @@
 				<label class="required" for="prefix">คำนำหน้า</label>
         <p-select 
           [options]="listPrefix" 
+          [filter]="true" 
+          filterBy="name"
           optionLabel="name" 
           optionValue="name"
           placeholder="-- เลือกคำนำหน้า --" 

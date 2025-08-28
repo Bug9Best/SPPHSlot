@@ -4,10 +4,14 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { Rooms, RoomsService } from '../../service/rooms';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { RegistrationsService } from '../../service/registrations';
+import { WinnerService } from '../../service/winner';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-room',
   imports: [
+    CommonModule,
     RouterLink,
     DialogModule,
     DividerModule,
@@ -44,18 +48,25 @@ export class Room {
 
   constructor(
     private activateRoute: ActivatedRoute,
-    private roomService: RoomsService
+    private roomService: RoomsService,
+    private winnerService: WinnerService,
+    private registrationsService: RegistrationsService
   ) {
     this.activateRoute.params.subscribe(params => {
       this.roomUUID = params['id'];
       this.qrCode = `${this.domain}/join?room=${this.roomUUID}`;
-      console.log(this.qrCode);
     });
 
     this.roomService.getRoomsByUUID(this.roomUUID)
       .subscribe(room => {
         this.roomData = room;
-        console.log(this.roomData);
+      });
+
+    this.registrationsService
+      .getRegistrationByRoom(this.roomUUID)
+      .subscribe(registrations => {
+        this.listUsers = registrations;
+        this.maxNumber = this.listUsers.length;
       });
   }
 
@@ -64,13 +75,11 @@ export class Room {
 
     this.playSound('spin.mp3');
     const random = Math.floor(Math.random() * this.maxNumber) + 1;
-    this.result = random.toString().padStart(3, '0');
+    this.result = this.listUsers[random - 1]?.luckyNumber || '000';
     this.spinning = true;
-    console.log('Spinning...', this.result);
     this.winnerUser = this.listUsers.find((user) => {
-      return user.id === this.result;
+      return user.luckyNumber === this.result;
     });
-    console.log('Winner User:', this.winnerUser);
 
     this.animateSlots(this.result);
   }
@@ -128,5 +137,28 @@ export class Room {
       el.classList.add('win');
       setTimeout(() => el.classList.remove('win'), 2000); // ลบออกหลัง 2 วิ
     });
+  }
+
+  submitWinner() {
+    this.winnerService
+      .submitWinner$(this.winnerUser)
+      .subscribe({
+        next: () => {
+          this.winnerUser = {};
+          this.dialogVisible = false;
+        }
+      });
+  }
+
+  reserveTicket() {
+    if (!this.roomData) return;
+    
+    this.registrationsService
+      .reserveTicket$(this.roomData?.totalPrize, this.roomUUID)
+      .subscribe({
+        next: () => {
+
+        }
+      });
   }
 }

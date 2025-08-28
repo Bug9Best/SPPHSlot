@@ -1,1 +1,50 @@
-<p>join works!</p>
+<div class="relative w-screen h-custom p-3">
+	<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/hexa.jpg'); z-index: -1;">
+	</div>
+
+	<div class="p-4 bg-white rounded-lg shadow w-full z-10">
+		<div class="text-xl text-center">
+			ลงทะเบียนลุ้นรับรางวัล 
+		</div>
+		<div class="text-2xl font-bold text-center">
+			{{ roomData?.name }} 
+		</div>
+		<p-divider></p-divider>
+
+		<div [formGroup]="formGroup" class="flex flex-col gap-3">
+			<div class="flex flex-col gap-1">
+				<label class="required" for="LuckyNumber">Lucky Number</label>
+				<input pInputText id="LuckyNumber" pKeyFilter="num" maxlength="3" formControlName="luckyNumber" />
+			</div>
+		</div>
+
+		<p-divider></p-divider>
+		<div class="text-center font-bold text-gray-500">
+			กรุณากรอกหมายเลข Lucky Number 
+		</div>
+		<div class="text-center text-gray-500">
+			ที่ได้รับจากการลงทะเบียนเข้าร่วมการประชุม
+		</div>
+    	<p-divider></p-divider>
+		<div class="flex justify-center gap-2">
+			<button pButton
+				icon="pi pi-save"
+				label="บันทึก"
+				class="w-full"
+				(click)="JoinRoom()">
+			</button>
+			</div>
+	</div>
+</div>
+
+<p-dialog
+  [modal]="true"
+  header="โปรดทราบ!"
+  [(visible)]="doneVisible"
+  [style]="{ width: '80vw', maxHeight: '80vh' }">
+  <div class="flex flex-col items-center gap-2 p-4">
+    <i class="pi pi-check-circle text-green-500 mb-4" style="font-size: 5rem;"></i>
+    <div class="text-lg text-center"> ท่านได้ลงทะเบียน <span class="font-bold"> {{ roomData?.name }} </span> </div>
+    <div class="text-lg text-center"> ด้วยหมายเลข <span class="font-bold">{{ registrationData?.luckyNumber }}</span> สำเร็จแล้ว! </div>
+  </div>
+</p-dialog>

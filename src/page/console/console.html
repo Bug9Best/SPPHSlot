@@ -27,19 +27,16 @@
     <div class="custom-border m-3 p-3 mt-3 overflow-y-scroll">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         @for (room of listRoom; track $index) {
-          <div class="custom-card rounded-lg shadow-md p-4 flex flex-col" style="background: url('image/green.jpg') no-repeat center center / cover;">
-            <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
+          <div class="custom-card rounded-lg shadow-md px-4 py-3 flex flex-col" style="background: url('image/green.jpg') no-repeat center center / cover;">
+            <div class="flex justify-between items-center">
+              <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
+              @if (room.isCondition) {
+                <i class="pi pi-crown text-yellow-500"></i>
+              }
+            </div>
       
             <div class="flex items-center gap-2 mb-3">
-              <div class="">สถานะ: </div>
-              @switch (room.status) {
-                @case (1) {
-                  <p-tag severity="primary" value="เปิด"/>
-                }
-                @case (2) {
-                  <p-tag severity="danger" value="ปิด"/>
-                }
-              }
+              <div class="">จำนวน {{ room.totalPrize }} รางวัล</div>
             </div>
             <button type="button" class="game-btn-xs w-full" routerLink="/room/{{ room.uuid }}">เข้าร่วม</button>
           </div>
@@ -61,6 +58,16 @@
       <div class="flex flex-col gap-2 mb-4">
         <label for="name" class="text-white font-semibold w-24">ชื่อห้อง</label>
         <input pInputText id="name" class="w-full" autocomplete="off" formControlName="name"/>
+      </div>
+
+       <div class="flex flex-col gap-2 mb-4">
+        <label for="name" class="text-white font-semibold w-24">จำนวนรางวัล</label>
+        <input pInputText id="name" class="w-full" autocomplete="off" pKeyFilter="num" maxlength="2" formControlName="totalPrize"/>
+      </div>
+
+      <div class="flex gap-2 mb-4">
+        <p-checkbox inputId="condition" [binary]="true" formControlName="isCondition" />
+        <label for="condition" class="ml-2 text-white"> รางวัลใหญ่ </label>
       </div>
     </div>
 

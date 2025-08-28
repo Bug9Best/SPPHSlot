@@ -7,6 +7,8 @@ export interface Rooms {
   uuid: string,
   name: string;
   status: number;
+  totalPrize: number;
+  isCondition: boolean;
 }
 
 @Injectable({
@@ -31,11 +33,11 @@ export class RoomsService {
     );
   }
 
-  CreateRoom$(user: any): Observable<DocumentReference> {
-    return from(this.CreateRoom(user));
+  createRoom$(user: any): Observable<DocumentReference> {
+    return from(this.createRoom(user));
   }
 
-  async CreateRoom(room: any) {
+  async createRoom(room: any) {
     const counterRef = doc(this.firestore, 'counters/rooms');
     const roomsRef = collection(this.firestore, 'rooms');
 
@@ -66,6 +68,8 @@ export class RoomsService {
       room.uuid = crypto.randomUUID();
       room.name = room.name;
       room.status = 1;
+      room.totalPrize = room.totalPrize;
+      room.isCondition = room.isCondition;
 
       const newRoomRef = doc(roomsRef, roomId);
       tx.set(newRoomRef, room);

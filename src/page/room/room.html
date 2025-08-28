@@ -6,9 +6,10 @@
     <div class="pt-3 pl-3">
       <button type="button" class="game-btn-sm" routerLink="/console">ย้อนกลับ</button>
     </div>
-    <div class="pt-3 pr-3">
+    <div class="pt-3 flex items-center pr-3">
       <button type="button" class="game-btn-sm mr-3" (click)="usersVisible = true">
         <i class="pi pi-users text-xl!"></i>
+        <span class="mx-1"> {{ listUsers.length }} </span>
       </button>
       @if (contentMode === 'game') {
       <button type="button" class="game-btn-sm" (click)="contentMode = 'qrcode'">
@@ -16,11 +17,27 @@
       </button>
       } @else {
         <button type="button" class="game-btn-sm" (click)="contentMode = 'game'">
-          <i class="pi pi-discord text-xl!"></i>
+          จับรางวัล
         </button>
       }
     </div>
   </div>
+
+    <div class="absolute bottom-0 right-0 w-full flex justify-between">
+      <div class="pb-3 pl-3">
+        <button type="button" class="game-btn-xs" (click)="reserveTicket()">
+          <i class="pi pi-lock"></i>
+        </button>
+      </div>
+      @if (roomData?.isCondition) {
+        <div class="pb-3 pr-3">
+          <button type="button" class="game-btn-xs" (click)="reserveTicket()">
+            <i class="pi pi-search"></i>
+          </button>
+        </div>
+      }
+    </div>
+
 
   @if (contentMode === 'game') {
     <div class="h-full flex flex-col justify-center items-center gap-5">
@@ -45,9 +62,9 @@
 
   @else {
     <div class="flex justify-center items-center h-full">
-      <qrcode 
-        [qrdata]="qrCode" 
-        [width]="512"  
+      <qrcode
+        [qrdata]="qrCode"
+        [width]="512"
         [errorCorrectionLevel]="'M'"></qrcode>
     </div>
   }
@@ -62,17 +79,51 @@
 
 <p-dialog
   [modal]="true"
-  [showHeader]="false"
+  [closable]="false"
   [(visible)]="usersVisible"
-  [style]="{ width: '60vw', maxHeight: '80vh',  background: 'url(image/green.jpg) no-repeat center center / cover' }">
-  <div class="my-3">
-    <h2 class="text-white text-lg font-bold"> ผู้เข้าร่วม </h2>
-  </div>
-  <ul>
+  [style]="{ width: '60vw', background: 'url(image/green.jpg) no-repeat center center / cover' }">
+  <ng-template #header>
+    <h2 class="text-white text-2xl font-bold"> ผู้ลงทะเบียนเข้าร่วมลุ้นรางวัล </h2>
+  </ng-template>
+
+  <div [style]="{ minHeight: '40vh', maxHeight: '80vh' }">
+    <ul>
       <div class="grid grid-cols-2 gap-2">
         @for (item of listUsers; track $index) {
-            <div class="col-span-1 bg-gray-100 p-3 rounded-lg">{{ item.prefix }}{{ item.fname }} {{ item.lname }}</div>
+          <div class="col-span-1 p-3 rounded-lg" style="background: url('image/red.jpg');">
+            <div class="text-white"> {{ item.registrationName }} </div>
+          </div>
         }
       </div>
-  </ul>
+    </ul>
+  </div>
+  <ng-template #footer>
+    <button type="button" class="game-btn-sm mt-4" (click)="usersVisible = false">
+      ปิด
+    </button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [showHeader]="false"
+  [(visible)]="dialogVisible"
+  styleClass="pt-8"
+  [style]="{ width: '60vw', background: 'url(image/green.jpg) no-repeat center center / cover' }">
+  <div class="flex flex-col items-center">
+    <div class="text-2xl text-white font-bold mb-3">ผู้ได้รับรางวัล</div>
+    <div class="text-rose-300 text-8xl">
+      {{ result }}
+    </div>
+    <div class="mt-2 text-white text-4xl">{{ winnerUser?.registrationName }}</div>
+  </div>
+
+  <div class="flex justify-center gap-3 mt-15">
+    <button type="button" class="game-btn-xs-secondary" (click)="dialogVisible = false">
+      ปิด
+    </button>
+    <button type="button" class="game-btn-xs" (click)="submitWinner()">
+      บันทึกผู้รับรางวัล
+    </button>
+  </div>
 </p-dialog>

@@ -69,8 +69,9 @@ export class UsersService {
       const userId = String(nextId).padStart(3, '0');
       user.id = userId;
       user.uuid = crypto.randomUUID();
-      user.walkin = true;
-      user.active = true;
+      user.isWalkin = true;
+      user.isActive = true;
+      user.role = "GUEST";
 
       const newUserRef = doc(usersRef, userId);
       tx.set(newUserRef, user);
