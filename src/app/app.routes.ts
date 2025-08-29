@@ -7,6 +7,7 @@ import { Dashboard } from '../page/dashboard/dashboard';
 import { Detail } from '../page/detail/detail';
 import { GameRoom } from '../page/game-room/game-room';
 import { Join } from '../page/join/join';
+import { Winner } from '../page/winner/winner';
 
 export const routes: Routes = [
     {
@@ -42,8 +43,8 @@ export const routes: Routes = [
         path: 'join',
         component: Join
     },
-    // {
-    //     path: 'game-room',
-    //     component: GameRoom
-    // },
+    {
+        path: 'winner',
+        component: Winner
+    }
 ];

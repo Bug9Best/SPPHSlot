@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { from, map, Observable, switchMap } from 'rxjs';
 import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference, updateDoc, setDoc, getDoc, orderBy, deleteDoc } from '@angular/fire/firestore';
 
-export interface Users {
+export interface Winners {
   id?: string;
-  uuid: string,
-  prefix: string;
-  fname: string;
-  lname: string;
-  walkin: boolean;
-  active: boolean;
+  registrationId: string,
+  registrationName: string;
+  luckyNumber: string;
+  roomName: string;
+  roomUUID: string;
+  userUUID: string;
 }
 
 @Injectable({
@@ -18,11 +18,11 @@ export interface Users {
 export class WinnerService {
   private firestore = inject(Firestore);
 
-  getUsers(): Observable<Users[]> {
+  getWinners(): Observable<Winners[]> {
     return collectionData(
-      collection(this.firestore, 'users'),
+      collection(this.firestore, 'winners'),
       { idField: 'id' }
-    ) as Observable<Users[]>;
+    ) as Observable<Winners[]>;
   }
 
   submitWinner$(winner: any): Observable<void> {
