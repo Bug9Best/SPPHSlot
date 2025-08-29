@@ -17,16 +17,16 @@
     height: 50px;
 }
 
-@media print {
+// @media print {
 
-    .btn {
-        display: none;
-    }
-}
+//     .btn {
+//         display: none;
+//     }
+// }
 
-@media screen {
-    #printSection {
-        display: none;
-        /* Hide on screen */
-    }
-}
+// @media screen {
+//     #printSection {
+//         display: none;
+//         /* Hide on screen */
+//     }
+// }
