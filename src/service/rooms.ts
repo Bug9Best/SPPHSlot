@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
-import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference } from '@angular/fire/firestore';
+import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference, updateDoc } from '@angular/fire/firestore';
 
 export interface Rooms {
   id?: string;
@@ -9,6 +9,7 @@ export interface Rooms {
   status: number;
   totalPrize: number;
   isCondition: boolean;
+  isLocked: boolean;
 }
 
 @Injectable({
@@ -35,6 +36,25 @@ export class RoomsService {
 
   createRoom$(user: any): Observable<DocumentReference> {
     return from(this.createRoom(user));
+  }
+
+  updateRoomLock$(roomId: string, isLocked: boolean): Observable<void> {
+    return from(this.updateRoomLock(roomId, isLocked));
+  }
+
+  async updateRoomLock(roomId: string, isLocked: boolean): Promise<void> {
+    const roomsRef = collection(this.firestore, 'rooms');
+    const roomQuery = query(roomsRef, where('uuid', '==', roomId));
+
+    const querySnapshot = await getDocs(roomQuery);
+    if (!querySnapshot.empty) {
+      const roomDoc = querySnapshot.docs[0];
+      const roomRef = doc(this.firestore, 'rooms', roomDoc.id);
+
+      await updateDoc(roomRef, { isLocked: isLocked });
+    } else {
+      throw new Error('Room not found');
+    }
   }
 
   async createRoom(room: any) {
@@ -70,6 +90,7 @@ export class RoomsService {
       room.status = 1;
       room.totalPrize = room.totalPrize;
       room.isCondition = room.isCondition;
+      room.isLocked = true;
 
       const newRoomRef = doc(roomsRef, roomId);
       tx.set(newRoomRef, room);

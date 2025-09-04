@@ -122,6 +122,8 @@ export class RegistrationsService {
     let registrationName: string | null = null;
     let userUUID: string | null = null;
     let totalPrize: number = 0;
+    let isLocked: boolean = false;
+
     userSnap.forEach((doc) => {
       registrationName = doc.data()['prefix'] + doc.data()['fname'] + ' ' + doc.data()['lname'];
       userUUID = doc.data()['uuid'];
@@ -129,7 +131,12 @@ export class RegistrationsService {
 
     roomSnap.forEach((doc) => {
       totalPrize = doc.data()['totalPrize'] || 0;
+      isLocked = doc.data()['isLocked'] || false;
     });
+
+    if (isLocked) {
+      throw new Error('ไม่สามารถทำรายการได้ เนื่องจากห้องนี้ถูก Lock อยู่');
+    }
 
     return runTransaction(this.firestore, async (tx) => {
       const duplicateQuery = query(

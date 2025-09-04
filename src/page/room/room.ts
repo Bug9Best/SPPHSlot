@@ -61,7 +61,14 @@ export class Room {
       this.qrCode = `${this.domain}/join?room=${this.roomUUID}`;
     });
 
-    this.roomService.getRoomsByUUID(this.roomUUID)
+    this.getRoomsByUUID();
+    this.getWinnersByRoomUUID();
+    this.getRegistrationByRoom();
+  }
+
+  getRoomsByUUID() {
+    this.roomService
+      .getRoomsByUUID(this.roomUUID)
       .subscribe(room => {
         this.roomData = room;
 
@@ -69,14 +76,18 @@ export class Room {
           this.contentMode = 'game';
         }
       });
+  }
 
+  getWinnersByRoomUUID() {
     this.winnerService
       .getWinnersByRoomUUID(this.roomUUID)
       .subscribe(winner => {
         this.listWinners = winner || [];
         console.log('winner', winner);
       });
+  }
 
+  getRegistrationByRoom() {
     this.registrationsService
       .getRegistrationByRoom(this.roomUUID)
       .subscribe(registrations => {
@@ -184,6 +195,19 @@ export class Room {
       .subscribe({
         next: () => {
 
+        }
+      });
+  }
+
+  updateRoomLock() {
+    if (!this.roomData) return;
+
+    let isLocked = !this.roomData.isLocked;
+    this.roomService
+      .updateRoomLock$(this.roomData.uuid, isLocked)
+      .subscribe({
+        next: () => {
+          this.getRoomsByUUID();
         }
       });
   }

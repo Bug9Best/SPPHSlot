@@ -47,9 +47,10 @@
   <div class="absolute bottom-0 right-0 w-full flex justify-end items-center">
     <div class="pb-3 pr-3 flex gap-2">
       <button pButton 
-        [severity]="'secondary'"
+        (click)="updateRoomLock()"
+        [severity]="roomData?.isLocked ? 'success' : 'secondary'"
         [icon]="'pi pi-lock'"
-        [label]="'ล็อค'">
+        [label]="roomData?.isLocked ? 'ปลดล็อค' : 'ล็อค'">
       </button>
      
       @if (roomData?.isCondition) {
