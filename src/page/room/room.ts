@@ -5,8 +5,9 @@ import { Rooms, RoomsService } from '../../service/rooms';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { RegistrationsService } from '../../service/registrations';
-import { WinnerService } from '../../service/winner';
+import { Winners, WinnerService } from '../../service/winner';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-room',
@@ -15,7 +16,8 @@ import { CommonModule } from '@angular/common';
     RouterLink,
     DialogModule,
     DividerModule,
-    QRCodeComponent
+    QRCodeComponent,
+    ButtonModule
   ],
   templateUrl: './room.html',
   styleUrl: './room.scss'
@@ -31,9 +33,11 @@ export class Room {
   roomData?: Rooms = <any>{};
 
   listUsers: any[] = [];
+  listWinners: Winners[] = [];
   winnerUser: any = {};
   usersVisible: boolean = false;
   dialogVisible: boolean = false;
+  winnersVisible: boolean = false;
 
   maxNumber: number = 500;
   result: string = '000';
@@ -60,6 +64,17 @@ export class Room {
     this.roomService.getRoomsByUUID(this.roomUUID)
       .subscribe(room => {
         this.roomData = room;
+
+        if (this.roomData?.isCondition === true) {
+          this.contentMode = 'game';
+        }
+      });
+
+    this.winnerService
+      .getWinnersByRoomUUID(this.roomUUID)
+      .subscribe(winner => {
+        this.listWinners = winner || [];
+        console.log('winner', winner);
       });
 
     this.registrationsService
@@ -152,9 +167,20 @@ export class Room {
 
   reserveTicket() {
     if (!this.roomData) return;
-    
+
     this.registrationsService
       .reserveTicket$(this.roomData?.totalPrize, this.roomUUID)
+      .subscribe({
+        next: () => {
+        }
+      });
+  }
+
+  clearTicket() {
+    if (!this.roomData) return;
+
+    this.registrationsService
+      .clearTicket$(this.roomUUID)
       .subscribe({
         next: () => {
 

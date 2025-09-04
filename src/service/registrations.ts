@@ -28,6 +28,10 @@ export class RegistrationsService {
     return from(this.reserveTicket(prize, uuid));
   }
 
+  clearTicket$(uuid: string): Observable<void> {
+    return from(this.clearTicket(uuid));
+  }
+
   async reserveTicket(totalPrize: number, uuid: string): Promise<DocumentReference[]> {
     const counterRef = doc(this.firestore, 'counters/registrations');
     const registrationsRef = collection(this.firestore, 'registrations');
@@ -70,7 +74,18 @@ export class RegistrationsService {
     });
   }
 
+  async clearTicket(uuid: string): Promise<void> {
+    //  Delete all registrations with the given roomUUID
+    const registrationsRef = collection(this.firestore, 'registrations');
+    const q = query(registrationsRef, where('roomUUID', '==', uuid));
 
+    const querySnapshot = await getDocs(q);
+    const batchPromises = querySnapshot.docs.map(docSnap => {
+      return updateDoc(docSnap.ref, { status: 0 });
+    });
+
+    await Promise.all(batchPromises);
+  }
 
   registrations$(data: any): Observable<DocumentReference> {
     return from(this.registrations(data));

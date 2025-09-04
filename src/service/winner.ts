@@ -25,6 +25,14 @@ export class WinnerService {
     ) as Observable<Winners[]>;
   }
 
+  getWinnersByRoomUUID(uuid: string): Observable<Winners[] | undefined> {
+    const winnersRef = collection(this.firestore, 'winners');
+    const winnerQuery = query(winnersRef, where('roomUUID', '==', uuid));
+
+    return collectionData(winnerQuery, { idField: 'id' }) as Observable<Winners[] | undefined>;
+  }
+
+
   submitWinner$(winner: any): Observable<void> {
     return from(this.submitWinner(winner));
   }

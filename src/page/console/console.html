@@ -1,33 +1,50 @@
 <div class="relative w-screen h-custom">
   <!-- <audio src="sounds/theme.mp3" autoplay loop></audio> -->
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/red.jpg'); z-index: -1;">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('image/digital-lg.jpg'); z-index: -1;">
   </div>
 
   @if (currentMode === 'console') {
-    <div class="flex items-center justify-center h-full ">
-      <div class="flex flex-col gap-3 -mt-30">
+    <div class="flex items-center justify-center h-full">
+      <div class="flex flex-col gap-3 -mt-20" style="backdrop-filter: blur(1px);">
         <img src="image/lucky.png" alt="Logo" width="350"  height="200" class="mx-auto select-none" />
-        <button type="button" class="game-btn" (click)="switchMode('room')">เข้าร่วม</button>
-        <button type="button" class="game-btn" routerLink="/winner">สถิติ</button>
+        <button pButton 
+          (click)="switchMode('room')"
+          [severity]="'success'"
+          [rounded]="true"
+          [icon]="'pi pi-search'"
+          [label]="'ค้นหาห้อง'"
+          [size]="'large'">
+        </button>
       </div>
     </div>
   }
 
   @else if (currentMode === 'room') {
     <div class="flex justify-between">
-      <div class="pt-3 pl-3">
-        <button type="button" class="game-btn-sm" (click)="switchMode('console')">ย้อนกลับ</button>
+      <div class="pt-5 pl-8">
+        <button pButton 
+          (click)="switchMode('console')"
+          [severity]="'secondary'"
+          [text]="true"
+          [icon]="'pi pi-arrow-left'"
+          [label]="'ย้อนกลับ'">
+        </button>
       </div>
 
-      <div class="pt-3 pr-3">
-        <button type="button" class="game-btn-sm" (click)="visible = true">สร้างห้องใหม่</button>
+      <div class="pt-5 pr-8">
+        <button pButton 
+          (click)="visible = true"
+          [severity]="'success'"
+          [icon]="'pi pi-plus'"
+          [label]="'สร้างห้องใหม่'">
+        </button>
       </div>
     </div>
 
-    <div class="custom-border m-3 p-3 mt-3 overflow-y-scroll">
+    <div class="custom-border border-1 border-gray-100 rounded-lg bg-white shadow-2xl m-8 p-4 mt-3 overflow-y-scroll">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         @for (room of listRoom; track $index) {
-          <div class="custom-card rounded-lg shadow-md px-4 py-3 flex flex-col" style="background: url('image/green.jpg') no-repeat center center / cover;">
+          <div class="custom-card border-1 border-gray-100 rounded-md shadow-sm px-4 py-3 flex flex-col">
             <div class="flex justify-between items-center">
               <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
               @if (room.isCondition) {
@@ -38,43 +55,61 @@
             <div class="flex items-center gap-2 mb-3">
               <div class="">จำนวน {{ room.totalPrize }} รางวัล</div>
             </div>
-            <button type="button" class="game-btn-xs w-full" routerLink="/room/{{ room.uuid }}">เข้าร่วม</button>
+            <button pButton 
+              routerLink="/room/{{ room.uuid }}"
+              [severity]="'secondary'"
+              [icon]="'pi pi-sign-in'"
+              [size]="'small'"
+              [label]="'เข้าร่วม'">
+            </button>
           </div>
           }
       </div>
     </div>
 
-   <p-dialog 
+  <p-dialog 
     [modal]="true" 
     [draggable]="false"
     [showHeader]="false"
     [(visible)]="visible" 
-    [style]="{ width: '40vw', background: 'url(image/green.jpg) no-repeat center center / cover' }">
+    [style]="{ width: '40vw', }">
     <div class="my-3">
-      <h2 class="text-white text-lg font-bold">สร้างห้องใหม่</h2>
+      <h2 class="text-lg font-bold">สร้างห้องใหม่</h2>
     </div>
 
     <div [formGroup]="formGroup">
       <div class="flex flex-col gap-2 mb-4">
-        <label for="name" class="text-white font-semibold w-24">ชื่อห้อง</label>
+        <label for="name" class="w-24">ชื่อห้อง</label>
         <input pInputText id="name" class="w-full" autocomplete="off" formControlName="name"/>
       </div>
 
        <div class="flex flex-col gap-2 mb-4">
-        <label for="name" class="text-white font-semibold w-24">จำนวนรางวัล</label>
+        <label for="name" class="w-24">จำนวนรางวัล</label>
         <input pInputText id="name" class="w-full" autocomplete="off" pKeyFilter="num" maxlength="2" formControlName="totalPrize"/>
       </div>
 
       <div class="flex gap-2 mb-4">
         <p-checkbox inputId="condition" [binary]="true" formControlName="isCondition" />
-        <label for="condition" class="ml-2 text-white"> รางวัลใหญ่ </label>
+        <label for="condition" class="ml-2"> รางวัลใหญ่ </label>
       </div>
     </div>
 
     <ng-template #footer>
-        <button type="button" class="game-btn-xs-secondary" (click)="visible = false">ยกเลิก</button>
-        <button type="button" class="game-btn-xs" (click)="createRoom()">สร้างห้องใหม่</button>
-      </ng-template>
+      <button pButton 
+        (click)="visible = false"
+        [severity]="'secondary'"
+        [text]="true"
+        [size]="'small'"
+        [label]="'ยกเลิก'">
+      </button>
+      <button pButton 
+        (click)="createRoom()"
+        [severity]="'success'"
+        [icon]="'pi pi-save'"
+        [size]="'small'"
+        [label]="'สร้างห้องใหม่'">
+      </button>
+    </ng-template>
   </p-dialog>
   }
 
@@ -88,8 +123,8 @@
   }
 
   <div class="absolute left-0 bottom-0 mb-3 ml-3">
-    <div class="text-sm text-white opacity-50">
-      <p>ศูนย์สื่อสารและสารสนเทศ โรงพยาบาลสมเด็จพระปิ่นเกล้า</p>
+    <div class="text-sm text-gray-500">
+      <p>ศูนย์สื่อสารและสารสนเทศ โรงพยาบาลสมเด็จพระปิ่นเกล้า (CIT)</p>
     </div>
   </div>
 </div>
