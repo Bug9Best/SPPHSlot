@@ -43,6 +43,15 @@ export class UsersService {
     const usersRef = collection(this.firestore, 'users');
 
     return runTransaction(this.firestore, async (tx) => {
+
+      const now = new Date();
+      const startTime = new Date();
+      startTime.setHours(6, 30, 0, 0);
+
+      if (now < startTime) {
+        throw new Error('ระบบเปิดให้ลงทะเบียนได้ในเวลา 06:30 น. เป็นต้นไป');
+      }
+
       const duplicateQuery = query(
         usersRef,
         where('prefix', '==', user.prefix),
