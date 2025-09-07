@@ -104,12 +104,27 @@
   }
 
   @else {
-    <div class="flex justify-center items-center h-full">
+    <div class="flex flex-col justify-center items-center h-full">
       <qrcode
         [qrdata]="qrCode"
         [width]="512"
         [errorCorrectionLevel]="'M'">
       </qrcode>
+
+
+      <div class="flex flex-col items-center gap-3">
+        <div class="text-6xl! text-center bg-blue-300 p-2 rounded-lg w-106 shadow-lg">
+          <h2> {{ countdownDisplay }}</h2>
+        </div>
+
+        <button 
+          pButton 
+          severity="secondary"
+          [disabled]="isCountDown"
+          (click)="startCountdown()"
+          label="เริ่มนับถอยหลัง">
+        </button>
+      </div>
     </div>
   }
 

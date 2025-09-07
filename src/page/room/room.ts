@@ -26,6 +26,12 @@ export class Room {
 
   contentMode: 'qrcode' | 'game' = 'qrcode';
 
+  isCountDown: boolean = false;
+  time: string = '';
+  countdown: number = 60;
+  intervalClock: any;
+  intervalCountdown: any;
+
   domain: string = 'https://bug9best.github.io/SPPHSlot'; // 'http://localhost:4200'
   roomUUID: string = '';
   qrCode = 'Your QR code data';
@@ -64,6 +70,11 @@ export class Room {
     this.getRoomsByUUID();
     this.getWinnersByRoomUUID();
     this.getRegistrationByRoom();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalClock);
+    clearInterval(this.intervalCountdown);
   }
 
   getRoomsByUUID() {
@@ -210,5 +221,34 @@ export class Room {
           this.getRoomsByUUID();
         }
       });
+  }
+
+  startClock() {
+    this.updateClock();
+    this.intervalClock = setInterval(() => this.updateClock(), 1000);
+  }
+
+  updateClock() {
+    const now = new Date();
+    this.time = now.toLocaleTimeString('th-TH', { hour12: false });
+  }
+
+  // Countdown 1 นาที
+  startCountdown() {
+    this.isCountDown = true;
+    this.countdown = 60;
+    this.intervalCountdown = setInterval(() => {
+      this.countdown--;
+      if (this.countdown <= 0) {
+        clearInterval(this.intervalCountdown);
+      }
+    }, 1000);
+  }
+
+  // ฟังก์ชันแปลงวินาทีเป็น mm:ss
+  get countdownDisplay(): string {
+    const minutes = Math.floor(this.countdown / 60);
+    const seconds = this.countdown % 60;
+    return `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
   }
 }
