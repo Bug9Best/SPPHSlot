@@ -46,14 +46,19 @@
         @for (room of listRoom; track $index) {
           <div class="custom-card border-1 border-gray-100 rounded-md shadow-sm px-4 py-3 flex flex-col">
             <div class="flex justify-between items-center">
-              <h2 class="text-xl font-bold mb-1">{{ room.name }}</h2>
-              @if (room.isCondition) {
-                <i class="pi pi-crown text-yellow-500"></i>
-              }
+              <h2 class="text-white text-xl font-bold mb-1">{{ room.name }}</h2>
+              <div class="flex gap-1">
+                @if (room.isCondition) {
+                  <i class="pi pi-crown text-yellow-500 bg-yellow-50 rounded-full p-2"></i>
+                }
+                @if (room.isLocked) {
+                  <i class="pi pi-lock text-gray-500 bg-white rounded-full p-2"></i>
+                }
+              </div>
             </div>
       
             <div class="flex items-center gap-2 mb-3">
-              <div class="">จำนวน {{ room.totalPrize }} รางวัล</div>
+              <div class="text-white">จำนวน {{ room.totalPrize }} รางวัล</div>
             </div>
             <button pButton 
               routerLink="/room/{{ room.uuid }}"
