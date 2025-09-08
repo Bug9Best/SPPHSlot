@@ -50,10 +50,10 @@ export class Room {
   slots: string[] = ['0', '0', '0'];
   spinning: boolean = false;
 
-  numbers: string[] = Array.from({ length: 200 }, (_, i) => (i % 10).toString());
+  numbers: string[] = Array.from({ length: 1000 }, (_, i) => (i % 10).toString());
   slotHeight = 350;
   reelTransforms: string[] = ['translateY(0)', 'translateY(0)', 'translateY(0)'];
-  reelDurations: string[] = ['4.5s', '4.5s', '4.5s'];
+  reelDurations: string[] = ['10s', '12s', '15s'];
 
 
   constructor(
@@ -133,7 +133,7 @@ export class Room {
       const finalIndex = spinRounds * 10 + digit;
       const offset = -(finalIndex * this.slotHeight);
 
-      const durationSec = 4.5 + i * (i * 0.5);
+      const durationSec = 10 * (1 + i *  0.5); // เพิ่มทีละ 15% ต่อรีล
       this.reelDurations[i] = `${durationSec}s`;
 
       // เริ่มหมุน
@@ -152,7 +152,7 @@ export class Room {
         // ใช้ requestAnimationFrame เพื่อให้ browser render ก่อน
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            this.reelDurations[i] = '4.5s'; // เปิด transition กลับมา
+            this.reelDurations[i] = '10s'; // เปิด transition กลับมา
           });
         });
 
