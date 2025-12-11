@@ -28,7 +28,7 @@ export class Room {
 
   isCountDown: boolean = false;
   time: string = '';
-  countdown: number = 60;
+  countdown: number = 120;
   intervalClock: any;
   intervalCountdown: any;
 
@@ -236,7 +236,7 @@ export class Room {
   // Countdown 1 นาที
   startCountdown() {
     this.isCountDown = true;
-    this.countdown = 60;
+    this.countdown = 120;
     this.intervalCountdown = setInterval(() => {
       this.countdown--;
       if (this.countdown <= 0) {
