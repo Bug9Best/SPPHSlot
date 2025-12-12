@@ -81,6 +81,7 @@ export class UsersService {
       user.isWalkin = true;
       user.isActive = true;
       user.role = "GUEST";
+      user.tel = user.tel || '';
 
       const newUserRef = doc(usersRef, userId);
       tx.set(newUserRef, user);

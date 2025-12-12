@@ -29,6 +29,10 @@
 				<label class="required" for="lname">นามสกุล</label>
 				<input pInputText id="lname" formControlName="lname" />
 			</div>
+
+			<div class="flex flex-col gap-1">
+				<label class="required" for="tel">เบอร์โทรศัพท์</label>
+				<input pInputText id="tel" formControlName="tel" maxlength="10" pKeyFilter="num"/>
 		</div>
 
 		<p-divider></p-divider>

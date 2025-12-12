@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { Users, UsersService } from '../../service/users';
 import { navyPrefix } from '../../data/prefix';
+import { KeyFilter } from "primeng/keyfilter";
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ import { navyPrefix } from '../../data/prefix';
     SelectModule,
     DividerModule,
     InputTextModule,
-  ],
+    KeyFilter
+],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -33,6 +35,7 @@ export class Register {
     prefix: new FormControl('', Validators.required),
     fname: new FormControl('', Validators.required),
     lname: new FormControl('', Validators.required),
+    tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
   });
 
   constructor(
