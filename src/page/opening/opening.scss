@@ -1,0 +1,127 @@
+* {
+    font-family: "Sriracha", cursive;
+}
+
+img {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+}
+
+.opening-screen {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    &__bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    &__content {
+        position: relative;
+        z-index: 10;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around; // กระจาย UI กับ หลอดให้อยู่คนละโซน
+        align-items: center;
+        padding: 40px 0;
+    }
+}
+
+.top-bar {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 20;
+}
+
+.qr-btn {
+    background: rgba(34, 211, 238, 0.1) !important;
+    border: 1px solid rgba(34, 211, 238, 0.4) !important;
+    padding: 10px 20px !important;
+    backdrop-filter: blur(10px);
+
+    &__label {
+        margin-left: 10px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    &:hover {
+        background: rgba(34, 211, 238, 0.2) !important;
+        box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+    }
+}
+
+.status-panel {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4); // เพิ่มพื้นหลังจางๆ ให้อ่านง่ายขึ้น
+    padding: 20px 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+
+    &__percent {
+        font-size: 4.5rem;
+        margin: 0;
+        color: #22d3ee;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
+    }
+
+    &__info {
+        color: #94a3b8;
+        font-size: 1.2rem;
+        margin: 10px 0;
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+        }
+    }
+}
+
+.energy-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.energy-tube {
+    position: relative;
+    top: 15%; // ปรับตำแหน่งให้เข้ากับภาพ
+    width: 55%; // ปรับขนาดตามความเหมาะสม
+
+    &__asset {
+        width: 100%;
+        display: block;
+        filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.5));
+    }
+
+    &__bar {
+        position: absolute;
+        top: 29.25%; // ปรับตามตำแหน่งร่องของรูปภาพ
+        left: 26%; // ปรับตามตำแหน่งร่องของรูปภาพ
+        height: 23%; // ปรับตามความสูงร่องของรูปภาพ
+        width: 0; // เริ่มต้นที่ 0% และจะเพิ่มขึ้นตามพลังงาน
+        z-index: -1;
+        background: linear-gradient(90deg,
+                #082f49 0%,
+                #0369a1 35%,
+                #0ea5e9 65%,
+                #67e8f9 100%);
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.6);
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); // ให้หลอดวิ่งนุ่มๆ
+        border-radius: 2px;
+    }
+}

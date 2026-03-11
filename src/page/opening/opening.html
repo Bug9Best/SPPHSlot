@@ -1,0 +1,36 @@
+<div class="opening-screen">
+  <!-- Background -->
+  <img src="image/lab.png" class="opening-screen__bg" alt="Lab Background">
+
+  <!-- QR CODE -->
+  <div class="top-bar">
+    <button pButton icon="pi pi-qrcode" class="p-button-info p-button-text qr-btn"
+      (click)="showQRCode()">
+    </button>
+  </div>
+
+  <div class="opening-screen__content">
+    <div class="status-panel">
+      <h1 class="status-panel__percent">
+        {{ energyPercent | number:'1.0-0' }}%
+      </h1>
+      <p class="status-panel__info">
+        พลังงานจากผู้เข้าร่วมงาน:
+        <span class="highlight">{{ scanCount }}</span> / {{ targetScans }}
+      </p>
+      <button pButton (click)="mockScan()" class="p-button-success p-button-sm status-panel__btn"
+        label="จำลองคนสแกน (+5)">
+      </button>
+    </div>
+
+    <div class="energy-container">
+      <div class="energy-tube">
+        <img src="image/energy.png" class="energy-tube__asset" alt="Energy Tube">
+
+        <div class="energy-tube__bar" [style.width]="'calc(' + energyPercent + ' * 0.525%)'">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

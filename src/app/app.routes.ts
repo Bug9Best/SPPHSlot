@@ -8,6 +8,7 @@ import { Detail } from '../page/detail/detail';
 import { GameRoom } from '../page/game-room/game-room';
 import { Join } from '../page/join/join';
 import { Winner } from '../page/winner/winner';
+import { Opening } from '../page/opening/opening';
 
 export const routes: Routes = [
     {
@@ -46,5 +47,9 @@ export const routes: Routes = [
     {
         path: 'winner',
         component: Winner
+    },
+    {
+        path: 'opening',
+        component: Opening
     }
 ];
