@@ -9,6 +9,9 @@ import { GameRoom } from '../page/game-room/game-room';
 import { Join } from '../page/join/join';
 import { Winner } from '../page/winner/winner';
 import { Opening } from '../page/opening/opening';
+import { OpeningAction } from '../page/opening-action/opening-action';
+import { OpeningListener } from '../page/opening-listener/opening-listener';
+import { OpeningPopEnergy } from '../page/opening-pop-energy/opening-pop-energy';
 
 export const routes: Routes = [
     {
@@ -51,5 +54,17 @@ export const routes: Routes = [
     {
         path: 'opening',
         component: Opening
+    },
+    {
+        path: 'opening-action',
+        component: OpeningAction
+    },
+    {
+        path: 'opening-listener',
+        component: OpeningListener
+    },
+       {
+        path: 'opening-pop-energy',
+        component: OpeningPopEnergy
     }
 ];

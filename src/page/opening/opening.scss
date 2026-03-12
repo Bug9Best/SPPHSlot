@@ -11,11 +11,9 @@ img {
 }
 
 .opening-screen {
-    position: relative;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
     &__bg {
         position: absolute;
@@ -25,103 +23,226 @@ img {
         object-fit: cover;
         z-index: 1;
     }
+}
 
-    &__content {
-        position: relative;
-        z-index: 10;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around; // กระจาย UI กับ หลอดให้อยู่คนละโซน
-        align-items: center;
-        padding: 40px 0;
+.panel-info {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 20;
+
+    .qr-code {
+        background: rgba(34, 211, 238, 0.1) !important;
+        border: 1px solid rgba(34, 211, 238, 0.4) !important;
+        padding: 10px 20px !important;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background: rgba(34, 211, 238, 0.2) !important;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+        }
     }
 }
 
-.top-bar {
+.panel-qrcode {
     position: absolute;
     top: 30px;
     right: 30px;
     z-index: 20;
-}
 
-.qr-btn {
-    background: rgba(34, 211, 238, 0.1) !important;
-    border: 1px solid rgba(34, 211, 238, 0.4) !important;
-    padding: 10px 20px !important;
-    backdrop-filter: blur(10px);
+    .qr-code {
+        background: rgba(34, 211, 238, 0.1) !important;
+        border: 1px solid rgba(34, 211, 238, 0.4) !important;
+        padding: 10px 20px !important;
+        backdrop-filter: blur(10px);
 
-    &__label {
-        margin-left: 10px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    &:hover {
-        background: rgba(34, 211, 238, 0.2) !important;
-        box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
-    }
-}
-
-.status-panel {
-    text-align: center;
-    background: rgba(0, 0, 0, 0.4); // เพิ่มพื้นหลังจางๆ ให้อ่านง่ายขึ้น
-    padding: 20px 40px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(34, 211, 238, 0.2);
-
-    &__percent {
-        font-size: 4.5rem;
-        margin: 0;
-        color: #22d3ee;
-        text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
-    }
-
-    &__info {
-        color: #94a3b8;
-        font-size: 1.2rem;
-        margin: 10px 0;
-
-        .highlight {
-            color: #fff;
-            font-weight: bold;
+        &:hover {
+            background: rgba(34, 211, 238, 0.2) !important;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
         }
     }
 }
 
 .energy-container {
+    position: absolute;
+    bottom: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px; // ปรับตามความเหมาะสม
 }
 
 .energy-tube {
     position: relative;
-    top: 15%; // ปรับตำแหน่งให้เข้ากับภาพ
-    width: 55%; // ปรับขนาดตามความเหมาะสม
+    /* กำหนดความกว้างตามรูปภาพ หรือปรับตามต้องการ */
+    width: fit-content;
 
     &__asset {
-        width: 100%;
         display: block;
-        filter: drop-shadow(0 0 30px rgba(0, 0, 0, 0.5));
+        width: 100%;
+        /* ให้รูปขยายตาม container */
+        max-width: 1200px;
+        /* สมมติขนาดความกว้างสูงสุด */
     }
 
-    &__bar {
+    /* รูปหลอดเปล่าเป็นฐาน */
+    .empty-tube {
+        position: relative;
+        z-index: 12;
+    }
+
+    .fully-tube {
         position: absolute;
-        top: 29.25%; // ปรับตามตำแหน่งร่องของรูปภาพ
-        left: 26%; // ปรับตามตำแหน่งร่องของรูปภาพ
-        height: 23%; // ปรับตามความสูงร่องของรูปภาพ
-        width: 0; // เริ่มต้นที่ 0% และจะเพิ่มขึ้นตามพลังงาน
-        z-index: -1;
-        background: linear-gradient(90deg,
-                #082f49 0%,
-                #0369a1 35%,
-                #0ea5e9 65%,
-                #67e8f9 100%);
-        box-shadow: 0 0 20px rgba(14, 165, 233, 0.6);
-        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); // ให้หลอดวิ่งนุ่มๆ
-        border-radius: 2px;
+        top: 0; // เพิ่ม top 0
+        left: 0;
+        width: 100%; // บังคับกว้าง 100% 
+        height: 100%; // บังคับสูง 100% เท่าหลอดเปล่า
+        object-fit: cover; // กันสัดส่วนเพี้ยน
+        z-index: 2;
+        /* ทำให้เวลาตัวแปร energyPercent เปลี่ยน หลอดจะวิ่งขึ้นลงแบบนุ่มๆ */
+        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+.status-panel {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 30px 50px;
+    z-index: 100;
+
+    // 1. พื้นหลังกระจกโปร่งแสง (Glassmorphism)
+    background: rgba(4, 26, 20, 0.6); // สีพื้นหลังอมเขียวเข้มโปร่งใส
+    backdrop-filter: blur(10px); // เบลอฉากหลัง
+
+    // 2. เส้นขอบบางๆ และแสงเรือง (Glow Effect)
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    box-shadow:
+        0 0 20px rgba(74, 222, 128, 0.15), // แสงเรืองวงนอก
+        inset 0 0 30px rgba(74, 222, 128, 0.1); // แสงเรืองวงใน
+    border-radius: 8px;
+
+    // 3. สร้างมุมกรอบหน้าจอ Sci-fi (Corner Brackets)
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px; // ขยายขอบเขตออกมาจากกล่องหลักนิดหน่อย
+        pointer-events: none;
+        border-radius: 8px;
+
+        // ใช้ Gradient วาดเส้นตรงมุมทั้ง 4 ด้าน (ปรับความยาว 20px และความหนา 3px ได้ตามต้องการ)
+        $corner-length: 25px;
+        $corner-thick: 3px;
+        $neon-color: #4ade80; // สีเขียวนีออน
+
+        background:
+            /* บน-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) top left / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top left / $corner-thick 100% no-repeat,
+            /* บน-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) top right / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top right / $corner-thick 100% no-repeat,
+            /* ล่าง-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) bottom left / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom left / $corner-thick 100% no-repeat,
+            /* ล่าง-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) bottom right / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom right / $corner-thick 100% no-repeat;
+
+        // เพิ่มเงาให้เส้นมุมสว่างขึ้นอีก
+        filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.8));
+    }
+
+    // 4. ปรับแต่งตัวอักษรด้านในให้เข้าธีม
+    &__percent {
+        font-size: 5rem;
+        margin: 0;
+        color: #4ade80; // สีเขียวนีออน
+        text-shadow:
+            0 0 10px rgba(74, 222, 128, 0.8),
+            0 0 20px rgba(74, 222, 128, 0.4); // ตัวเลขเรืองแสง
+        font-family: 'Courier New', Courier, monospace; // ฟอนต์ทรงเทคโนโลยี
+        font-weight: bold;
+    }
+
+    &__info {
+        color: #a7f3d0;
+        font-size: 1.2rem;
+        margin: 15px 0;
+        letter-spacing: 1px;
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+    }
+}
+
+.qr-code-panel {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 30px 50px;
+    z-index: 100;
+
+    // 1. พื้นหลังกระจกโปร่งแสง (Glassmorphism)
+    background: rgba(4, 26, 20, 0.6); // สีพื้นหลังอมเขียวเข้มโปร่งใส
+    backdrop-filter: blur(10px); // เบลอฉากหลัง
+
+    // 2. เส้นขอบบางๆ และแสงเรือง (Glow Effect)
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    box-shadow:
+        0 0 20px rgba(74, 222, 128, 0.15), // แสงเรืองวงนอก
+        inset 0 0 30px rgba(74, 222, 128, 0.1); // แสงเรืองวงใน
+    border-radius: 8px;
+
+    // 3. สร้างมุมกรอบหน้าจอ Sci-fi (Corner Brackets)
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px; // ขยายขอบเขตออกมาจากกล่องหลักนิดหน่อย
+        pointer-events: none;
+        border-radius: 8px;
+
+        // ใช้ Gradient วาดเส้นตรงมุมทั้ง 4 ด้าน (ปรับความยาว 20px และความหนา 3px ได้ตามต้องการ)
+        $corner-length: 25px;
+        $corner-thick: 3px;
+        $neon-color: #4ade80; // สีเขียวนีออน
+
+        background:
+            /* บน-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) top left / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top left / $corner-thick 100% no-repeat,
+            /* บน-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) top right / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top right / $corner-thick 100% no-repeat,
+            /* ล่าง-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) bottom left / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom left / $corner-thick 100% no-repeat,
+            /* ล่าง-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) bottom right / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom right / $corner-thick 100% no-repeat;
+
+        // เพิ่มเงาให้เส้นมุมสว่างขึ้นอีก
+        filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.8));
+    }
+
+    &__info {
+        color: #a7f3d0;
+        font-size: 1.2rem;
+        margin: 15px 0;
+        letter-spacing: 1px;
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
     }
 }

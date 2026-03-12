@@ -4,7 +4,7 @@ import { Firestore, doc, updateDoc, onSnapshot, docData } from '@angular/fire/fi
 interface CeremonyState {
   energy: number;
   maxEnergy?: number;
-  vipScanned: boolean;
+  chiefAction: boolean;
   ceremonyStarted: boolean;
 }
 
@@ -25,7 +25,7 @@ export class OpeningPopEnergy {
   state = signal<CeremonyState>({
     energy: 0,
     maxEnergy: 1000,
-    vipScanned: false,
+    chiefAction: false,
     ceremonyStarted: false
   });
 
