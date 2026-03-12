@@ -30,18 +30,6 @@
     </div>
   }
 
-  <!-- @if (showInfo()) {
-    <div class="status-panel">
-      <h1 class="status-panel__percent">
-        {{ energyPercent | number:'1.0-0' }}%
-      </h1>
-      <p class="status-panel__info">
-        พลังงานจากผู้เข้าร่วมงาน:
-        <span class="highlight">{{ scanCount }}</span> / {{ targetScans }}
-      </p>
-    </div>
-  } -->
-
   @if (showQRCode()) {
     <div class="qr-code-panel">
       <p class="qr-code-panel__info">สแกน QR Code เพื่อชาร์จพลังงาน!</p>
