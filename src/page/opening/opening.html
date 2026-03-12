@@ -20,13 +20,22 @@
 
   @if (showInfo()) {
     <div class="status-panel">
-      <h1 class="status-panel__percent">
-        {{ energyPercent()  }}% 
-      </h1>
       <p class="status-panel__info">
         พลังงานจากผู้เข้าร่วมงาน:
         <span class="highlight">{{ scanCount() }}</span> / {{ targetScans() }}
       </p>
+
+      <h1 class="status-panel__percent">
+        {{ energyPercent()  }}% 
+      </h1>
+
+      @if (energyPercent() >= 100) {
+        <button pButton 
+          label="ไปหน้าพิธีเปิด"
+          (click)="goToCeremony()"
+          class="p-button-success p-button-sm status-panel__btn">
+        </button>
+      }
     </div>
   }
 
@@ -50,3 +59,4 @@
     </div>
   </div>
 </div>
+<div class="fade-overlay" [class.active]="isFadingOut()"></div>

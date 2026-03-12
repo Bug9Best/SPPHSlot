@@ -180,6 +180,19 @@ img {
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
         }
     }
+
+    ::ng-deep .p-button {
+        background: rgba(74, 222, 128, 0.1) !important;
+        border: 1px solid rgba(74, 222, 128, 0.5) !important;
+        color: #4ade80 !important;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.2) !important;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: rgba(74, 222, 128, 0.3) !important;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.6) !important;
+        }
+    }
 }
 
 .qr-code-panel {
@@ -244,5 +257,24 @@ img {
             font-weight: bold;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
         }
+    }
+}
+
+/* เพิ่มไว้ด้านล่างสุดของไฟล์ scss */
+.fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000; // สีดำสนิท
+    z-index: 9999; // บังคับให้อยู่เลเยอร์บนสุด บังทุกอย่าง
+    opacity: 0;
+    pointer-events: none; // ตอนปกติให้คลิกทะลุได้
+    transition: opacity 2s ease-in-out; // อนิเมชันค่อยๆ มืดลงใน 1 วินาที (เวลาต้องตรงกับ setTimeout ใน .ts)
+
+    &.active {
+        opacity: 1;
+        pointer-events: auto; // ป้องกันคนกดย้ำๆ ระหว่างที่จอกำลังมืด
     }
 }

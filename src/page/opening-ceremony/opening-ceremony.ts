@@ -2,12 +2,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-opening-listener',
+  selector: 'app-opening-ceremony',
   imports: [],
-  templateUrl: './opening-listener.html',
-  styleUrl: './opening-listener.scss',
+  templateUrl: './opening-ceremony.html',
+  styleUrl: './opening-ceremony.scss',
 })
-export class OpeningListener {
+export class OpeningCeremony {
 
   constructor(private firestore: Firestore) { }
   ngOnInit() {

@@ -10,8 +10,8 @@ import { Join } from '../page/join/join';
 import { Winner } from '../page/winner/winner';
 import { Opening } from '../page/opening/opening';
 import { OpeningAction } from '../page/opening-action/opening-action';
-import { OpeningListener } from '../page/opening-listener/opening-listener';
 import { OpeningPopEnergy } from '../page/opening-pop-energy/opening-pop-energy';
+import { OpeningCeremony } from '../page/opening-ceremony/opening-ceremony';
 
 export const routes: Routes = [
     {
@@ -60,8 +60,8 @@ export const routes: Routes = [
         component: OpeningAction
     },
     {
-        path: 'opening-listener',
-        component: OpeningListener
+        path: 'opening-ceremony',
+        component: OpeningCeremony
     },
        {
         path: 'opening-pop-energy',
