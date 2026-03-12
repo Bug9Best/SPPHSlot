@@ -1,0 +1,24 @@
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+video {
+    height: 100%;
+    z-index: -10;
+    object-fit: cover;
+}
+
+.action {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 95%;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+}
