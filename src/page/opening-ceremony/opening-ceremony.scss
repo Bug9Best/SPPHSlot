@@ -75,3 +75,83 @@ video {
         visibility: hidden; // ซ่อนไปเลยเพื่อความชัวร์ว่าจะไม่มากวน UI
     }
 }
+
+
+.status-panel {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    text-align: center;
+    padding: 30px 50px;
+    z-index: 100;
+
+    // 1. พื้นหลังกระจกโปร่งแสง (Glassmorphism)
+    background: rgba(4, 26, 20, 0.6); // สีพื้นหลังอมเขียวเข้มโปร่งใส
+    backdrop-filter: blur(10px); // เบลอฉากหลัง
+
+    // 2. เส้นขอบบางๆ และแสงเรือง (Glow Effect)
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    box-shadow:
+        0 0 20px rgba(74, 222, 128, 0.15), // แสงเรืองวงนอก
+        inset 0 0 30px rgba(74, 222, 128, 0.1); // แสงเรืองวงใน
+    border-radius: 8px;
+    animation: bounce 1.5s infinite;
+
+    // 3. สร้างมุมกรอบหน้าจอ Sci-fi (Corner Brackets)
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -2px; // ขยายขอบเขตออกมาจากกล่องหลักนิดหน่อย
+        pointer-events: none;
+        border-radius: 8px;
+
+        // ใช้ Gradient วาดเส้นตรงมุมทั้ง 4 ด้าน (ปรับความยาว 20px และความหนา 3px ได้ตามต้องการ)
+        $corner-length: 25px;
+        $corner-thick: 3px;
+        $neon-color: #4ade80; // สีเขียวนีออน
+
+        background:
+            /* บน-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) top left / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top left / $corner-thick 100% no-repeat,
+            /* บน-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) top right / 100% $corner-thick no-repeat,
+            linear-gradient(0deg, $neon-color $corner-length, transparent $corner-length) top right / $corner-thick 100% no-repeat,
+            /* ล่าง-ซ้าย */
+            linear-gradient(90deg, $neon-color $corner-length, transparent $corner-length) bottom left / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom left / $corner-thick 100% no-repeat,
+            /* ล่าง-ขวา */
+            linear-gradient(-90deg, $neon-color $corner-length, transparent $corner-length) bottom right / 100% $corner-thick no-repeat,
+            linear-gradient(180deg, $neon-color $corner-length, transparent $corner-length) bottom right / $corner-thick 100% no-repeat;
+
+        // เพิ่มเงาให้เส้นมุมสว่างขึ้นอีก
+        filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.8));
+    }
+
+    &__info {
+        color: #a7f3d0;
+        font-size: 1.2rem;
+        margin: 15px 0;
+        letter-spacing: 1px;
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(-20%) translateX(-50%);
+            animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+        }
+
+        50% {
+            transform: translateX(-50%);
+            animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        }
+    }
+}

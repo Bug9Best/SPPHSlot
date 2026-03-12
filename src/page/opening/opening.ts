@@ -41,12 +41,21 @@ export class Opening {
 
   ngOnInit() {
     this.listenToCeremonyStatus();
+    this.playSound('epic.mp3');
+
   }
 
   ngOnDestroy() {
     if (this.statusSub) {
       this.statusSub.unsubscribe();
     }
+  }
+
+  private playSound(file: string) {
+    const audio = new Audio(`sounds/${file}`);
+    audio.volume = Math.max(0, Math.min(1, 0.3));
+    audio.loop = true;
+    audio.play();
   }
 
   private listenToCeremonyStatus() {
