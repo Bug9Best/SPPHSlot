@@ -1,0 +1,11 @@
+<div class="popcat-container">
+  <h2 class="text-2xl mb-8 text-blue-400 font-bold text-center">กดปุ่มเพื่อร่วมส่งพลังงาน</h2>
+
+  <img class="popcat-button" alt="PopCat Energy Button" 
+    [src]="isPressing() ? 'image/opening/stateOn.png' : 'image/opening/stateOff.png'"
+    (mousedown)="isPressing.set(true)"
+    (mouseup)="handleUserClick(); isPressing.set(false)" 
+    (mouseleave)="isPressing.set(false)"
+    (touchstart)="isPressing.set(true); $event.preventDefault()"
+    (touchend)="handleUserClick(); isPressing.set(false); $event.preventDefault()">
+</div>
