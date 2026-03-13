@@ -3,6 +3,12 @@
 
    <div class="panel-info">
     <button pButton 
+      icon="pi pi-minus-circle" 
+      class="p-button-info p-button-text qr-code mr-2"
+      (click)="decreseEnergy()">
+    </button>
+
+    <button pButton 
       icon="pi pi-database" 
       class="p-button-info p-button-text qr-code"
       (click)="showInfo.set(!showInfo())">

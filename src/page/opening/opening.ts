@@ -98,4 +98,10 @@ export class Opening {
       this.router.navigate(['/opening-ceremony']);
     }, 2000);
   }
+
+  decreseEnergy() {
+    const statusDocRef = doc(this.firestore, 'ceremony', 'status');
+
+    
+  }
 }
