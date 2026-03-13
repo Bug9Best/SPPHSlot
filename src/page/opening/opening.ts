@@ -1,4 +1,4 @@
-import { Firestore, doc, docData } from '@angular/fire/firestore';
+import { Firestore, doc, setDoc, docData, increment } from '@angular/fire/firestore';
 import { Component, inject, signal } from '@angular/core';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { CommonModule } from '@angular/common';
@@ -99,9 +99,23 @@ export class Opening {
     }, 2000);
   }
 
-  decreseEnergy() {
+  async decreaseEnergy() {
     const statusDocRef = doc(this.firestore, 'ceremony', 'status');
 
-    
+    try {
+      // ใช้ increment(-5) เพื่อบอกให้ Firebase หักลบค่า energy ลงทีละ 5
+      await setDoc(statusDocRef, {
+        energy: increment(-500)
+      }, { merge: true });
+    } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการลดพลังงาน:', error);
+    }
+  }
+
+  async increaseEnergy() {
+    const statusDocRef = doc(this.firestore, 'ceremony', 'status');
+    await setDoc(statusDocRef, {
+      energy: increment(500)
+    }, { merge: true }); 
   }
 }
