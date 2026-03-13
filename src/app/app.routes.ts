@@ -3,9 +3,7 @@ import { Register } from '../page/register/register';
 import { Console } from '../page/console/console';
 import { Room } from '../page/room/room';
 import { Home } from '../page/home/home';
-import { Dashboard } from '../page/dashboard/dashboard';
 import { Detail } from '../page/detail/detail';
-import { GameRoom } from '../page/game-room/game-room';
 import { Join } from '../page/join/join';
 import { Winner } from '../page/winner/winner';
 import { Opening } from '../page/opening/opening';
@@ -31,10 +29,6 @@ export const routes: Routes = [
     {
         path: 'detail/:uid',
         component: Detail
-    },
-    {
-        path: 'dashboard',
-        component: Dashboard
     },
     {
         path: 'console',

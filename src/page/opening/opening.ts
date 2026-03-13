@@ -52,7 +52,7 @@ export class Opening {
 
   private playSound(file: string) {
     const audio = new Audio(`sounds/${file}`);
-    audio.volume = Math.max(0, Math.min(1, 0.1));
+    audio.volume = Math.max(0, Math.min(1, 1));
     audio.play();
   }
 

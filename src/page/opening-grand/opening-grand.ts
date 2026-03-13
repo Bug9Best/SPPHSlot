@@ -25,7 +25,7 @@ export class OpeningGrand {
     }
 
     this.currentAudio = new Audio(`sounds/${file}`);
-    this.currentAudio.volume = Math.max(0, Math.min(1, 0.5));
+    this.currentAudio.volume = Math.max(0, Math.min(1, 1));
     this.currentAudio.loop = true;
     this.currentAudio.play();
   }
