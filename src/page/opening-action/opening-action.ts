@@ -1,5 +1,6 @@
-import { Component, } from '@angular/core';
-import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore';
+import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
+import { Firestore, doc, docData, setDoc } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-opening-action',
@@ -9,19 +10,42 @@ import { Firestore, doc, setDoc, serverTimestamp } from '@angular/fire/firestore
 })
 export class OpeningAction {
 
-  constructor(private firestore: Firestore) { }
+  private firestore: Firestore = inject(Firestore);
+  private statusSub!: Subscription;
 
-  async palmScan() {
-    console.log('Palm scanning...');
-    const triggerRef = doc(this.firestore, 'triggers', 'openingCeremony');
+  isChiefActionLocked = signal<boolean>(false);
 
+  ngOnInit() {
+    this.listenToCeremonyStatus();
+  }
+
+  ngOnDestroy() {
+    if (this.statusSub) {
+      this.statusSub.unsubscribe();
+    }
+  }
+
+  private listenToCeremonyStatus() {
+    const statusDocRef = doc(this.firestore, 'ceremony', 'status');
+
+    this.statusSub = docData(statusDocRef).subscribe((data: any) => {
+      if (data) {
+        this.isChiefActionLocked.set(data.chiefActionLock);
+      }
+    });
+  }
+
+  async handScan() {
+    if (this.isChiefActionLocked()) {
+      console.log('Action is locked. Cannot scan palm yet.');
+      return;
+    }
+
+    const triggerRef = doc(this.firestore, 'ceremony', 'status');
     try {
       await setDoc(triggerRef, {
-        isTriggered: true,
-        triggeredAt: serverTimestamp()
-      }, { merge: true }); 
-
-      console.log('Trigger sent successfully!');
+        chiefAction: true,
+      }, { merge: true });
     } catch (error) {
       console.error('Error triggering:', error);
     }

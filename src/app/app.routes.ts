@@ -12,6 +12,7 @@ import { Opening } from '../page/opening/opening';
 import { OpeningAction } from '../page/opening-action/opening-action';
 import { OpeningPopEnergy } from '../page/opening-pop-energy/opening-pop-energy';
 import { OpeningCeremony } from '../page/opening-ceremony/opening-ceremony';
+import { OpeningGrand } from '../page/opening-grand/opening-grand';
 
 export const routes: Routes = [
     {
@@ -63,8 +64,12 @@ export const routes: Routes = [
         path: 'opening-ceremony',
         component: OpeningCeremony
     },
-       {
+    {
         path: 'opening-pop-energy',
         component: OpeningPopEnergy
+    },
+    {
+        path: 'opening-grand',
+        component: OpeningGrand
     }
 ];

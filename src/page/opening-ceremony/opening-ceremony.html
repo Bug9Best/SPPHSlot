@@ -1,15 +1,47 @@
 <div class="opening-screen">
   <img #labReady src="image/opening/labReady.png" class="opening-screen__bg" alt="Lab Ready Background">
+  <img #accessGranted src="image/opening/accessGranted.png" class="opening-screen__bg access-granted-bg" alt="Access Granted">
 
+  <div class="panel-status">
+    <button pButton 
+      [icon]="isChiefActionLocked() ? 'pi pi-lock' : 'pi pi-unlock'" 
+      [ngClass]="{'p-button-success': !isChiefActionLocked(), 'p-button-danger': isChiefActionLocked()}"
+      class="p-button-text status"
+      (click)="triggerChiefAction()">
+    </button>
+
+    <button pButton 
+      [icon]="'pi pi-refresh'" 
+      class="p-button-info p-button-text status ml-2"
+      (click)="resetState()">
+    </button>
+    
+    <button pButton 
+      [icon]="'pi pi-play'" 
+      class="p-button-info p-button-text status ml-2"
+      (click)="playGrandOpening()">
+    </button>
+  </div>
+
+  @if (!isCeremonyTriggered()) {
     <div class="status-panel animate-ping">
       <p class="status-panel__info">โปรดยืนยันตัวตนเพื่อเริ่มพิธีเปิด</p>
     </div>
+  }
 
-  <!-- <div #videoContainer class="video-container">
-    <video #myVideo autoplay [muted]="false" [playbackRate]="0.8">
-      <source src="videos/grandOpening.mp4" type="video/mp4">
-    </video>
-  </div> -->
+  <div #handPrint class="hand-scanner-box">
+    <img src="image/opening/fingerPrint.png" class="hand-image" alt="Lab Ready Background">
+    <div class="scan-laser"></div>
+  </div>
+
+  @if (isCeremonyTriggered()) {
+    <div #videoContainer class="video-container">
+      <video #myVideo [muted]="false" [playbackRate]="0.8" (ended)="onVideoEnded()">
+        <source src="videos/grandOpening.mp4" type="video/mp4">
+      </video>
+    </div>
+  }
 
 </div>
 <div class="fade-in-overlay"></div>
+<div class="fade-out-white" [class.active]="isFadingToWhite()"></div>

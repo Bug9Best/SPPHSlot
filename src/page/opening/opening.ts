@@ -42,7 +42,6 @@ export class Opening {
   ngOnInit() {
     this.listenToCeremonyStatus();
     this.playSound('epic.mp3');
-
   }
 
   ngOnDestroy() {
@@ -53,8 +52,7 @@ export class Opening {
 
   private playSound(file: string) {
     const audio = new Audio(`sounds/${file}`);
-    audio.volume = Math.max(0, Math.min(1, 0.3));
-    audio.loop = true;
+    audio.volume = Math.max(0, Math.min(1, 0.1));
     audio.play();
   }
 

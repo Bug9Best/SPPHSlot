@@ -1,0 +1,30 @@
+.opening-screen {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.fade-in-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000; // สีดำสนิท รับช่วงต่อจากหน้าเปิด
+    z-index: 9999; // บังคับให้อยู่เลเยอร์บนสุด
+    pointer-events: none; // เพื่อไม่ให้มันบล็อกการคลิกปุ่มต่างๆ ในหน้า
+
+    animation: fadeOutBlack 2s ease-in-out forwards;
+}
+
+
+@keyframes fadeOutBlack {
+    0% {
+        opacity: 1; // เริ่มต้นที่จอดำ 
+    }
+
+    100% {
+        opacity: 0; // จบที่จอใสปิ๊ง เห็นเนื้อหาหน้า Ceremony
+        visibility: hidden; // ซ่อนไปเลยเพื่อความชัวร์ว่าจะไม่มากวน UI
+    }
+}
