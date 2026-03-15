@@ -23,19 +23,25 @@ import { KeyFilter } from "primeng/keyfilter";
     DividerModule,
     InputTextModule,
     KeyFilter
-],
+  ],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
 export class Register {
 
   listPrefix = [...navyPrefix, { name: 'นาย' }, { name: 'นาง' }, { name: 'นางสาว' }];
+  listWorkType = [
+    { value: 1, name: 'สหสาขาวิชีพที่ปฏิบัติงานที่ รพ.สมเด็จพระปิ่นเกล้า' },
+    { value: 2, name: 'บุคคลภายนอกที่ปฏิบัติงานใน รพ. (ข้าราชการเกษียณ/นักศึกแพทย์)' },
+    { value: 3, name: 'บุคคลภายนอก (ข้าราชการต่างสังกัด/นักศึกษาฝึกงาน)' },
+  ]
 
   formGroup = new FormGroup({
     prefix: new FormControl('', Validators.required),
     fname: new FormControl('', Validators.required),
     lname: new FormControl('', Validators.required),
     tel: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
+    workType: new FormControl('', Validators.required),
   });
 
   constructor(
@@ -56,7 +62,6 @@ export class Register {
   router = inject(Router);
   CheckInUser() {
     let values = this.formGroup.value
-
 
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();

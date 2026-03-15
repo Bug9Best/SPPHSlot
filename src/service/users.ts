@@ -78,8 +78,8 @@ export class UsersService {
       const userId = String(nextId).padStart(3, '0');
       user.id = userId;
       user.uuid = crypto.randomUUID();
-      user.isWalkin = true;
-      user.isActive = true;
+      user.canScan = true;
+      user.canRandom = user.workType === 1 ? true : false;
       user.role = "GUEST";
       user.tel = user.tel || '';
 

@@ -8,7 +8,7 @@
 		</div>
 		<p-divider></p-divider>
 
-		<div [formGroup]="formGroup" class="flex flex-col gap-3">
+		<div #formDiv [formGroup]="formGroup" class="flex flex-col gap-3">
 			<div class="flex flex-col gap-1">
 				<label class="required" for="prefix">คำนำหน้า</label>
         <p-select 
@@ -33,31 +33,46 @@
 			<div class="flex flex-col gap-1">
 				<label class="required" for="tel">เบอร์โทรศัพท์</label>
 				<input pInputText id="tel" formControlName="tel" maxlength="10" pKeyFilter="num"/>
-		</div>
+      </div>
 
-		<p-divider></p-divider>
-		<div class="text-center font-bold text-gray-500">
-			กรุณาตรวจสอบข้อมูลให้ถูกต้อง
-		</div>
-		<div class="text-center text-gray-500">
-			ข้อมูลที่ลงทะเบียนจะไม่สามารถแก้ไขได้ภายหลัง
-		</div>
+      <div class="flex flex-col gap-1">
+        <label class="required" for="prefix">ประเภทงาน</label>
+        <p-select
+          appendTo="body"       
+          [options]="listWorkType"
+          [filter]="true"
+          filterBy="name"
+          optionLabel="name"
+          optionValue="value"
+          placeholder="-- เลือกประเภทงาน --"
+          class="w-full"
+          formControlName="workType">
+        </p-select>
+      </div>
+
+      <p-divider></p-divider>
+      <div class="text-center font-bold text-gray-500">
+        กรุณาตรวจสอบข้อมูลให้ถูกต้อง
+      </div>
+      <div class="text-center text-gray-500">
+        ข้อมูลที่ลงทะเบียนจะไม่สามารถแก้ไขได้ภายหลัง
+      </div>
     	<p-divider></p-divider>
-		<div class="flex justify-center gap-2">
-			<button pButton
-				severity="danger"
-				[text]="true"
-				icon="pi pi-undo"
-				label="ยกเลิก"
-				class="w-full"
-        routerLink="/home">
-			</button>
-			<button pButton
-				icon="pi pi-save"
-				label="บันทึก"
-				class="w-full"
-				(click)="CheckInUser()">
-			</button>
+      <div class="flex justify-center gap-2">
+        <button pButton
+          severity="danger"
+          [text]="true"
+          icon="pi pi-undo"
+          label="ยกเลิก"
+          class="w-full"
+          routerLink="/home">
+        </button>
+        <button pButton
+          icon="pi pi-save"
+          label="บันทึก"
+          class="w-full"
+          (click)="CheckInUser()">
+        </button>
 			</div>
 	</div>
 </div>
