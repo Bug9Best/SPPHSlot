@@ -191,7 +191,7 @@ export class Room {
     this.registrationsService
       .reserveTicket$(this.roomData?.totalPrize, this.roomUUID)
       .subscribe({
-        next: () => {
+        next: (res) => {
         }
       });
   }

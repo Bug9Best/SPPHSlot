@@ -1,12 +1,18 @@
 import { inject, Injectable } from '@angular/core';
 import { from, map, Observable } from 'rxjs';
-import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference, getDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, runTransaction, doc, collection, addDoc, getDocs, query, where, DocumentReference, getDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 
 export interface Rooms {
   id?: string;
   uuid: string,
   name: string;
   status: number;
+}
+
+export interface GroupedTicket {
+  userUUID: string;
+  registrationName: string;
+  totalCount: number;
 }
 
 @Injectable({
@@ -19,12 +25,11 @@ export class RegistrationsService {
     const roomsRef = collection(this.firestore, 'registrations');
     const q = query(roomsRef,
       where('roomUUID', '==', roomUUID),
-      where('status', '==', 1)
     );
     return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 
-  reserveTicket$(prize: number, uuid: string): Observable<DocumentReference[]> {
+  reserveTicket$(prize: number, uuid: string): Observable<GroupedTicket[]> {
     return from(this.reserveTicket(prize, uuid));
   }
 
@@ -32,56 +37,107 @@ export class RegistrationsService {
     return from(this.clearTicket(uuid));
   }
 
-  async reserveTicket(totalPrize: number, uuid: string): Promise<DocumentReference[]> {
+  async reserveTicket(totalPrize: number, uuid: string): Promise<GroupedTicket[]> {
+    // ==========================================
+    // ส่วนที่ 1: ดึงข้อมูลและจัดกลุ่ม (Client-side Join)
+    // ==========================================
+    const oldRegistrationsRef = collection(this.firestore, 'registrations');
+    const querySnapshot = await getDocs(oldRegistrationsRef);
+
+    const groupedData: Record<string, { count: number; name: string }> = {};
+
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const userUUID = data['userUUID'];
+      const name = data['registrationName'];
+
+      if (userUUID) {
+        if (!groupedData[userUUID]) {
+          groupedData[userUUID] = { count: 0, name: name };
+        }
+        groupedData[userUUID].count += 1;
+      }
+    });
+
+    const baseGroupedArray = Object.keys(groupedData).map(key => ({
+      userUUID: key,
+      registrationName: groupedData[key].name,
+      totalCount: groupedData[key].count
+    }));
+
+    const finalResult: GroupedTicket[] = await Promise.all(
+      baseGroupedArray.map(async (item) => {
+        try {
+          const usersRef = collection(this.firestore, 'users');
+          const q = query(usersRef, where('uuid', '==', item.userUUID));
+          const userQuerySnap = await getDocs(q);
+
+          let canRandomValue = false;
+          if (!userQuerySnap.empty) {
+            canRandomValue = userQuerySnap.docs[0].data()['canRandom'] === true;
+          }
+
+          return { ...item, canRandom: canRandomValue };
+        } catch (error) {
+          return { ...item, canRandom: false };
+        }
+      })
+    );
+
+    // ==========================================
+    // ส่วนที่ 2: คัดกรองและบันทึกข้อมูลใหม่
+    // ==========================================
+
+    const filterCounter = 2;
+    const targetUsers = finalResult.filter(user => user.totalCount === filterCounter);
+
+    if (targetUsers.length === 0) {
+      console.log(`ไม่มีผู้ใช้ที่เข้าเงื่อนไข (totalCount = ${filterCounter})`);
+      return [];
+    }
+
+    // 2. เริ่ม Transaction เพื่อรันเลขและบันทึกข้อมูล
     const counterRef = doc(this.firestore, 'counters/registrations');
     const registrationsRef = collection(this.firestore, 'registrations');
 
-    return runTransaction(this.firestore, async (tx) => {
+    await runTransaction(this.firestore, async (tx) => {
+      // อ่านเลข Counter ล่าสุด
       const counterSnap = await tx.get(counterRef);
       let nextId = counterSnap.exists() ? counterSnap.data()['lastId'] + 1 : 1;
 
-      // query ภายใน transaction
-      const registrationsSnap = await getDocs(query(
-        registrationsRef,
-        where('status', '==', 1)
-      ));
-
-      // filter ภายใน transaction
-      const filteredDocs = registrationsSnap.docs.filter(docSnap => docSnap.data()['roomUUID'] !== uuid);
-
-      const newDocs: DocumentReference[] = [];
-
-      for (const docSnap of filteredDocs) {
-        const data = docSnap.data();
-        const registrationId = String(nextId).padStart(3, '0');
+      // วนลูปสร้าง Document ใหม่สำหรับคนที่เข้าเงื่อนไข
+      for (const user of targetUsers) {
+        const runningString = String(nextId).padStart(3, '0'); // เช่น "001", "002"
         nextId++;
 
-        const newData = {
-          ...data,
-          roomUUID: uuid,
-          totalPrize: totalPrize,
+        // โครงสร้างข้อมูลตามภาพที่คุณแนบมา
+        const newRegistrationData = {
+          id: runningString,
+          luckyNumber: runningString, // สมมติให้ luckyNumber เป็นเลขเดียวกับ id
+          registrationName: user.registrationName,
+          roomTotalPrize: totalPrize, // จาก Parameter
+          roomUUID: uuid,             // จาก Parameter
+          userUUID: user.userUUID
         };
 
-        const newDocRef = doc(registrationsRef, registrationId);
-        tx.set(newDocRef, newData);
-        newDocs.push(newDocRef);
+        // กำหนด Document ID ให้ตรงกับ id (เช่น '001') แล้วสั่งบันทึก
+        const newDocRef = doc(registrationsRef, runningString);
+        tx.set(newDocRef, newRegistrationData);
       }
 
-      // อัพเดต counter หลังสร้างทุก document
+      // อัปเดตเลข Counter กลับลงไปใน Database
       tx.set(counterRef, { lastId: nextId - 1 });
-
-      return newDocs;
     });
+    return targetUsers;
   }
 
   async clearTicket(uuid: string): Promise<void> {
-    //  Delete all registrations with the given roomUUID
     const registrationsRef = collection(this.firestore, 'registrations');
     const q = query(registrationsRef, where('roomUUID', '==', uuid));
 
     const querySnapshot = await getDocs(q);
     const batchPromises = querySnapshot.docs.map(docSnap => {
-      return updateDoc(docSnap.ref, { status: 0 });
+      return deleteDoc(docSnap.ref);
     });
 
     await Promise.all(batchPromises);
@@ -168,7 +224,6 @@ export class RegistrationsService {
       registrations.userUUID = userUUID;
       registrations.registrationName = registrationName;
       registrations.roomTotalPrize = totalPrize;
-      registrations.status = 1;
 
       const newRoomRef = doc(registrationsRef, registrationsId);
       tx.set(newRoomRef, registrations);
