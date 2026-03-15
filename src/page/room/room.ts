@@ -84,7 +84,6 @@ export class Room {
       .getRoomsByUUID(this.roomUUID)
       .subscribe(room => {
         this.roomData = room;
-        console.log('roomData', this.roomData);
         (this.roomData?.roomType === 'PRIZE') ? this.contentMode = 'game' : this.contentMode = 'qrcode';
       });
   }
