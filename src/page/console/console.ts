@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } 
 import { MessageService } from 'primeng/api';
 import { RouterLink } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { KeyFilter } from "primeng/keyfilter";
 
 @Component({
@@ -22,6 +23,7 @@ import { KeyFilter } from "primeng/keyfilter";
     RouterLink,
     CheckboxModule,
     KeyFilter,
+    RadioButtonModule
 ],
   templateUrl: './console.html',
   styleUrl: './console.scss'
@@ -32,11 +34,16 @@ export class Console {
   currentMode: 'console' | 'room' | 'statistics' = 'console';
 
   listRoom: Rooms[] = [];
+  listRoomType:any = [ 
+    { value: 'SCAN' , label: 'สแกนเพื่อเข้าร่วมกิจกรรม'},
+    { value: 'PRIZE' , label: 'สแกนเพื่อจับรางวัล'},
+    { value: 'BOTH' , label: 'สแกนเพื่อเข้าร่วมกิจกรรมและจับรางวัล'},
+  ]
 
   formGroup: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     totalPrize: new FormControl(1, Validators.required),
-    isCondition: new FormControl(false, Validators.required)
+    roomType: new FormControl('SCAN', Validators.required)
   });
 
   constructor(
@@ -74,7 +81,11 @@ export class Console {
 
     this.roomService.createRoom$(values).subscribe({
       next: (docRef: any) => {
-        this.formGroup.reset();
+        this.formGroup.reset({
+          name: '',
+          totalPrize: 1,
+          roomType: 'SCAN'
+        });
         this.visible = false;
       },
       error: (err) => {
