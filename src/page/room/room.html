@@ -19,26 +19,29 @@
         [icon]="'pi pi-users'"
         [label]="'รายชื่อผู้เข้าร่วม ' + listUsers.length.toString()">
       </button>
-      <button pButton 
-        (click)="winnersVisible = true"
-        [severity]="'secondary'"
-        [icon]="'pi pi-users'"
-        [label]="'รายชื่อผู้ได้รับรางวัล ' + listWinners.length.toString()">
-      </button>
-      @if (!roomData?.isCondition) {
+
+      @if (roomData?.roomType === 'PRIZE' || roomData?.roomType === 'BOTH') {
+        <button pButton 
+          (click)="winnersVisible = true"
+          severity="secondary"
+          icon="pi pi-users"
+          label="รายชื่อผู้ได้รับรางวัล {{ listWinners.length }}">
+        </button>
+      }
+
+      @if (roomData?.roomType === 'BOTH') {
         @if (contentMode === 'game') {
           <button pButton 
             (click)="contentMode = 'qrcode'"
-            [severity]="'success'"
-            [icon]="'pi pi-qrcode'"
-            [label]="'qrCode'">
+            severity="success"
+            icon="pi pi-qrcode"
+            label="qrCode">
           </button>
         } @else {
           <button pButton 
             (click)="contentMode = 'game'"
-            [severity]="'success'"
-            [label]="'จับรางวัล'">
-          </button>
+            severity="success"
+            label="จับรางวัล"> </button>
         }
       }
     </div>
@@ -53,7 +56,7 @@
         [label]="roomData?.isLocked ? 'ปลดล็อค' : 'ล็อค'">
       </button>
      
-      @if (roomData?.isCondition) {
+      @if (roomData?.roomType === 'PRIZE') {
       <button pButton 
         (click)="reserveTicket()"
         [severity]="'secondary'"

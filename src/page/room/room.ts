@@ -62,14 +62,16 @@ export class Room {
     private winnerService: WinnerService,
     private registrationsService: RegistrationsService
   ) {
-    this.activateRoute.params.subscribe(params => {
-      this.roomUUID = params['id'];
-      this.qrCode = `${this.domain}/join?room=${this.roomUUID}`;
-    });
+    this.activateRoute.params
+      .subscribe(params => {
+        this.roomUUID = params['id'];
+        this.qrCode = `${this.domain}/join?room=${this.roomUUID}`;
+      });
 
     this.getRoomsByUUID();
     this.getWinnersByRoomUUID();
     this.getRegistrationByRoom();
+
   }
 
   ngOnDestroy(): void {
@@ -82,10 +84,8 @@ export class Room {
       .getRoomsByUUID(this.roomUUID)
       .subscribe(room => {
         this.roomData = room;
-
-        if (this.roomData?.isCondition === true) {
-          this.contentMode = 'game';
-        }
+        console.log('roomData', this.roomData);
+        (this.roomData?.roomType === 'PRIZE') ? this.contentMode = 'game' : this.contentMode = 'qrcode';
       });
   }
 
@@ -94,7 +94,6 @@ export class Room {
       .getWinnersByRoomUUID(this.roomUUID)
       .subscribe(winner => {
         this.listWinners = winner || [];
-        console.log('winner', winner);
       });
   }
 
@@ -133,7 +132,7 @@ export class Room {
       const finalIndex = spinRounds * 10 + digit;
       const offset = -(finalIndex * this.slotHeight);
 
-      const durationSec = 10 * (1 + i *  0.5); // เพิ่มทีละ 15% ต่อรีล
+      const durationSec = 10 * (1 + i * 0.5); // เพิ่มทีละ 15% ต่อรีล
       this.reelDurations[i] = `${durationSec}s`;
 
       // เริ่มหมุน

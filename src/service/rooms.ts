@@ -6,9 +6,9 @@ export interface Rooms {
   id?: string;
   uuid: string,
   name: string;
+  roomType: 'SCAN' | 'PRIZE' | 'BOTH';
   status: number;
   totalPrize: number;
-  isCondition: boolean;
   isLocked: boolean;
 }
 
@@ -87,9 +87,9 @@ export class RoomsService {
       room.id = roomId;
       room.uuid = crypto.randomUUID();
       room.name = room.name;
+      room.roomType = room.roomType;
       room.status = 1;
       room.totalPrize = room.totalPrize;
-      room.isCondition = room.isCondition;
       room.isLocked = true;
 
       const newRoomRef = doc(roomsRef, roomId);
