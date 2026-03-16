@@ -27,6 +27,12 @@
       class="p-button-info p-button-text qr-code"
       (click)="showQRCode.set(!showQRCode())">
     </button>
+
+    <button pButton 
+      [icon]="'pi pi-play'" 
+      class="p-button-info p-button-text qr-code ml-2"
+      (click)="playSound('epic2.mp3')">
+    </button>
   </div>
 
   @if (showInfo()) {

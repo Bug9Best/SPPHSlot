@@ -50,7 +50,7 @@ export class Opening {
     }
   }
 
-  private playSound(file: string) {
+  playSound(file: string) {
     const audio = new Audio(`sounds/${file}`);
     audio.volume = Math.max(0, Math.min(1, 1));
     audio.play();
@@ -116,6 +116,6 @@ export class Opening {
     const statusDocRef = doc(this.firestore, 'ceremony', 'status');
     await setDoc(statusDocRef, {
       energy: increment(500)
-    }, { merge: true }); 
+    }, { merge: true });
   }
 }
