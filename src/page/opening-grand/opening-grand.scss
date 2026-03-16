@@ -38,3 +38,22 @@
         visibility: hidden; // ซ่อนไปเลยเพื่อความชัวร์ว่าจะไม่มากวน UI
     }
 }
+
+.panel-status {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 20;
+
+    .status {
+        background: rgba(34, 211, 238, 0.1) !important;
+        border: 1px solid rgba(34, 211, 238, 0.4) !important;
+        padding: 10px 20px !important;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background: rgba(34, 211, 238, 0.2) !important;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+        }
+    }
+}

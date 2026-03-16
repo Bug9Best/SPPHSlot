@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-opening-grand',
-  imports: [],
+  imports: [
+    ButtonModule
+  ],
   templateUrl: './opening-grand.html',
   styleUrl: './opening-grand.scss',
 })
@@ -19,7 +22,7 @@ export class OpeningGrand {
     this.pauseSound('epic2.mp3');
   }
 
-  private playSound(file: string) {
+  playSound(file: string) {
     if (this.currentAudio) {
       this.currentAudio.pause();
     }
