@@ -88,7 +88,7 @@ export class RegistrationsService {
     // ส่วนที่ 2: คัดกรองและบันทึกข้อมูลใหม่
     // ==========================================
 
-    const filterCounter = 2;
+    const filterCounter = 6;
     const targetUsers = finalResult.filter(user => user.totalCount === filterCounter);
 
     if (targetUsers.length === 0) {
