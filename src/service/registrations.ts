@@ -14,6 +14,7 @@ export interface GroupedTicket {
   registrationName: string;
   totalCount: number;
   canRandom: boolean;
+  luckyNumber: string;
 }
 
 @Injectable({
@@ -45,7 +46,7 @@ export class RegistrationsService {
     const oldRegistrationsRef = collection(this.firestore, 'registrations');
     const querySnapshot = await getDocs(oldRegistrationsRef);
 
-    const groupedData: Record<string, { count: number; name: string }> = {};
+    const groupedData: Record<string, { count: number; name: string;}> = {};
 
     querySnapshot.forEach((docSnap) => {
       const data = docSnap.data();
@@ -59,6 +60,7 @@ export class RegistrationsService {
         groupedData[userUUID].count += 1;
       }
     });
+
 
     const baseGroupedArray = Object.keys(groupedData).map(key => ({
       userUUID: key,
@@ -74,13 +76,15 @@ export class RegistrationsService {
           const userQuerySnap = await getDocs(q);
 
           let canRandomValue = false;
+          let userID = '';
           if (!userQuerySnap.empty) {
             canRandomValue = userQuerySnap.docs[0].data()['canRandom'] === true;
+            userID = userQuerySnap.docs[0].data()['id'];
           }
 
-          return { ...item, canRandom: canRandomValue };
+          return { ...item, canRandom: canRandomValue, luckyNumber: userID };
         } catch (error) {
-          return { ...item, canRandom: false };
+          return { ...item, canRandom: false, luckyNumber: '' };
         }
       })
     );
@@ -88,6 +92,13 @@ export class RegistrationsService {
     // ==========================================
     // ส่วนที่ 2: คัดกรองและบันทึกข้อมูลใหม่
     // ==========================================
+
+    // orderby luckyNumber จากน้อยไปมาก
+    finalResult.sort((a, b) => {
+      const numA = parseInt(a.luckyNumber, 10);
+      const numB = parseInt(b.luckyNumber, 10);
+      return numA - numB;
+    });
 
     const filterCounter = 6;
     const targetUsers = finalResult.filter(user => user.totalCount === filterCounter && user.canRandom);
@@ -114,7 +125,7 @@ export class RegistrationsService {
         // โครงสร้างข้อมูลตามภาพที่คุณแนบมา
         const newRegistrationData = {
           id: runningString,
-          luckyNumber: runningString, // สมมติให้ luckyNumber เป็นเลขเดียวกับ id
+          luckyNumber: user.luckyNumber, // สมมติให้ luckyNumber เป็นเลขเดียวกับ id
           registrationName: user.registrationName,
           roomTotalPrize: totalPrize, // จาก Parameter
           roomUUID: uuid,             // จาก Parameter
@@ -130,7 +141,7 @@ export class RegistrationsService {
       tx.set(counterRef, { lastId: nextId - 1 });
     });
 
-    console.log('test',targetUsers)
+    console.info('targetUsers',targetUsers)
     return targetUsers;
   }
 
