@@ -21,6 +21,12 @@
       class="p-button-info p-button-text status ml-2"
       (click)="playGrandOpening()">
     </button>
+
+    <button pButton 
+      [icon]="'pi pi-sign-out'" 
+      class="p-button-info p-button-text status ml-2"
+      [routerLink]="['/opening-preview']">
+    </button>
   </div>
 
   @if (!isCeremonyTriggered()) {

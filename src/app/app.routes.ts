@@ -11,6 +11,7 @@ import { OpeningAction } from '../page/opening-action/opening-action';
 import { OpeningPopEnergy } from '../page/opening-pop-energy/opening-pop-energy';
 import { OpeningCeremony } from '../page/opening-ceremony/opening-ceremony';
 import { OpeningGrand } from '../page/opening-grand/opening-grand';
+import { OpeningPreview } from '../page/opening-preview/opening-preview';
 
 export const routes: Routes = [
     {
@@ -65,5 +66,9 @@ export const routes: Routes = [
     {
         path: 'opening-grand',
         component: OpeningGrand
+    },
+    {
+        path: 'opening-preview',
+        component: OpeningPreview
     }
 ];

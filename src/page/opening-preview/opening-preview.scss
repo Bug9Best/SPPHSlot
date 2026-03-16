@@ -1,0 +1,43 @@
+.video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+video {
+    height: 100%;
+    z-index: -10;
+    object-fit: cover;
+}
+
+.action {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 95%;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+}
+
+.panel-status {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 20;
+
+    .status {
+        background: rgba(34, 211, 238, 0.1) !important;
+        border: 1px solid rgba(34, 211, 238, 0.4) !important;
+        padding: 10px 20px !important;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            background: rgba(34, 211, 238, 0.2) !important;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+        }
+    }
+}

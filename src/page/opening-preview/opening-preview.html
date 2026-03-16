@@ -1,0 +1,14 @@
+<div class="video-container">
+  <div class="panel-status">
+    <button pButton 
+      [icon]="'pi pi-sign-out'" 
+      class="p-button-info p-button-text status ml-2"
+      [routerLink]="['/opening-ceremony']">
+    </button>
+  </div>
+  <video #myVideo autoplay loop [muted]="true" [playbackRate]="1" class="-z-10">
+    <source src="videos/handScanner.mp4" type="video/mp4">
+  </video>
+  <div class="action rounded-full" (click)="handScan()">
+  </div>
+</div>

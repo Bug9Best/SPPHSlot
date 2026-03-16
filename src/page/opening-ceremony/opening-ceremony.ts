@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { Firestore, doc, docData, setDoc } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { Subscription } from 'rxjs';
 
@@ -9,7 +9,8 @@ import { Subscription } from 'rxjs';
   selector: 'app-opening-ceremony',
   imports: [
     ButtonModule,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './opening-ceremony.html',
   styleUrl: './opening-ceremony.scss',
