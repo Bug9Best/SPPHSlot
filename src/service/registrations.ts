@@ -13,6 +13,7 @@ export interface GroupedTicket {
   userUUID: string;
   registrationName: string;
   totalCount: number;
+  canRandom: boolean;
 }
 
 @Injectable({
@@ -89,7 +90,7 @@ export class RegistrationsService {
     // ==========================================
 
     const filterCounter = 6;
-    const targetUsers = finalResult.filter(user => user.totalCount === filterCounter);
+    const targetUsers = finalResult.filter(user => user.totalCount === filterCounter && user.canRandom);
 
     if (targetUsers.length === 0) {
       console.log(`ไม่มีผู้ใช้ที่เข้าเงื่อนไข (totalCount = ${filterCounter})`);
@@ -128,6 +129,8 @@ export class RegistrationsService {
       // อัปเดตเลข Counter กลับลงไปใน Database
       tx.set(counterRef, { lastId: nextId - 1 });
     });
+
+    console.log('test',targetUsers)
     return targetUsers;
   }
 
