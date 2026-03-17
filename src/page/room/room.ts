@@ -100,7 +100,7 @@ export class Room {
     this.registrationsService
       .getRegistrationByRoom(this.roomUUID)
       .subscribe(registrations => {
-        this.listUsers = registrations;
+        this.listUsers = this.shuffleArray(registrations);
         this.maxNumber = this.listUsers.length;
       });
   }
@@ -108,15 +108,40 @@ export class Room {
   spin() {
     if (this.spinning) return;
 
-    this.playSound('spin.mp3');
-    const random = Math.floor(Math.random() * this.maxNumber) + 1;
-    this.result = this.listUsers[random - 1]?.luckyNumber || '000';
-    this.spinning = true;
-    this.winnerUser = this.listUsers.find((user) => {
-      return user.luckyNumber === this.result;
-    });
+    // 1. เช็คก่อนว่ายังมีคนเหลือให้สุ่มไหม
+    if (this.listUsers.length === 0) {
+      alert('จับรางวัลครบทุกคนแล้ว!');
+      return;
+    }
 
+    // 2. สุ่มตัวเลขจาก "จำนวนคนที่เหลืออยู่จริงๆ" ในปัจจุบัน
+    const random = Math.floor(Math.random() * this.listUsers.length);
+
+    // 3. ใช้ splice เพื่อ "ดึง" ผู้ชนะออกจาก Array
+    // คำสั่งนี้จะลบข้อมูลที่ตำแหน่ง random ออก 1 ตัว และคืนค่าข้อมูลที่ถูกลบออกมา
+    const removedUsers = this.listUsers.splice(random, 1);
+
+    // เนื่องจาก splice คืนค่ากลับมาเป็น Array เสมอ เราจึงต้องเอาตำแหน่งที่ 0 มาใช้
+    this.winnerUser = removedUsers[0];
+
+    // 4. ดึงเลข luckyNumber ออกมา
+    this.result = this.winnerUser?.luckyNumber || '000';
+    // this.spinning = true;
+
+    this.maxNumber = this.listUsers.length;
+
+    this.shuffleArray(this.listUsers);
+    this.playSound('spin.mp3');
     this.animateSlots(this.result);
+  }
+
+  shuffleArray(array: any[]) {
+    let shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 
   private playSound(file: string) {

@@ -100,7 +100,7 @@ export class RegistrationsService {
       return numA - numB;
     });
 
-    const filterCounter = 6;
+    const filterCounter = 4;
     const targetUsers = finalResult.filter(user => user.totalCount === filterCounter && user.canRandom);
 
     if (targetUsers.length === 0) {
