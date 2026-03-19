@@ -101,7 +101,7 @@ export class RegistrationsService {
     });
 
     const filterCounter = 4;
-    const targetUsers = finalResult.filter(user => user.totalCount === filterCounter && user.canRandom);
+    const targetUsers = finalResult.filter(user => user.totalCount >= filterCounter && user.canRandom);
 
     if (targetUsers.length === 0) {
       console.log(`ไม่มีผู้ใช้ที่เข้าเงื่อนไข (totalCount = ${filterCounter})`);
